@@ -38,13 +38,16 @@ Use $setup-senler-skills to configure this project so every Skill knows where it
 
 任何 Skill 都不会偷偷进入下一阶段。项目控制权始终在你手里
 
-一个例子 :
+**一个例子：**
+
+```text
 [$grill-with-docs] 我需要完善一下决斗
 和AI聊 ...
 [$to-spec]
 [$to-tickets]
 [$implement]
 得出完整功能人为验收
+```
 
 ## 每个 Skill 是干什么的
 

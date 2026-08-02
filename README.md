@@ -41,13 +41,16 @@ Every feature or solution goes through these four steps. You decide when to move
 
 Nothing silently starts the next stage. You stay in control.
 
-An example:
+**An example:**
+
+```text
 [$grill-with-docs] I need to flesh out the duel system
 Talk it through with AI...
 [$to-spec]
 [$to-tickets]
 [$implement]
 Finish with a complete feature ready for human acceptance testing
+```
 
 ## What Each Skill Does
 
