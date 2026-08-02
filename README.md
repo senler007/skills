@@ -44,12 +44,12 @@ Nothing silently starts the next stage. You stay in control.
 **An example:**
 
 ```text
-[$grill-with-docs] I need to flesh out the duel system
-Talk it through with AI...
-[$to-spec]
-[$to-tickets]
-[$implement]
-Finish with a complete feature ready for human acceptance testing
+You Say     :[$grill-with-docs] I need to flesh out the duel system
+Communicate :Talk it through with AI...
+You Say     :[$to-spec]
+You Say     :[$to-tickets]
+You Say     :[$implement]
+Finally     :Finish with a complete feature ready for human acceptance testing
 ```
 
 ## What Each Skill Does

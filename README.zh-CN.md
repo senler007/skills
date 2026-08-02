@@ -41,11 +41,11 @@ Use $setup-senler-skills to configure this project so every Skill knows where it
 **一个例子：**
 
 ```text
-[$grill-with-docs] 我需要完善一下决斗
+你说 : [$grill-with-docs] 我需要完善一下决斗
 和AI聊 ...
-[$to-spec]
-[$to-tickets]
-[$implement]
+你说 : [$to-spec]
+你说 : [$to-tickets]
+你说 : [$implement]
 得出完整功能人为验收
 ```
 
