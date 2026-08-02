@@ -2,89 +2,65 @@
 
 # Senler Skills
 
-一套精简、以 Codex 为首要支持环境的开发工作流，用来把设计讨论转化为经过审查、
-文档同步并已提交的实现。Tracker 工件负责交付过程，人类可读的项目文档负责保存
-长期产品知识。
+如果你想自己掌控项目，而不是让 AI 把项目搞得一团糟，就用这套工作流。它会把
+每项设计决策和代码结构保存在人类能读懂的项目文档里。
 
-首个版本正好包含九个 Skill。
+你可以通过这些文档对项目的设计和架构有非常明确的认识，也能保证 AI 不越界操作。
 
-| 显式工作流 | 用途 |
-| --- | --- |
-| `setup-senler-skills` | 配置 Tracker、文档路径、语言和 Agent 指引 |
-| `grill-with-docs` | 一次解决一个设计决策，并同步已经确认的设计 |
-| `to-spec` | 把已完成的讨论发布为面向变更的 Spec |
-| `to-tickets` | 发布经过确认、具有真实依赖关系的纵向切片 Ticket |
-| `implement` | 实现指定范围、处理审查阻断项、验证并提交 |
+这套工作流很大程度上借鉴了 AIHero，但有三个关键变化：
 
-| 支持性纪律 | 用途 |
-| --- | --- |
-| `grilling` | 每次只提出一个带推荐答案的决策问题 |
-| `project-documentation` | 把每条长期事实放入唯一的权威来源 |
-| `tdd` | 通过已经确认的稳定边界测试外部行为 |
-| `code-review` | 分别审查 Standards、Spec 和 Documentation |
+- **维护一套人能读懂的项目文档。** 长期设计和架构留在真正能给人看的文档里。
+- **流程由你控制。** 什么时候运行哪个阶段由你决定，不让 AI 替你组织整个项目。
+- **想做功能或修改时，随时创建一个 Spec。** 每个 Spec 只是 AI 为这次变更留下的一份简短记录，方便你以后阅读，而不是试图接管整个项目设计的巨型文档。
 
-## 安装
+## 安装和使用
 
-使用 Codex 标准的 `$skill-installer`，仓库地址为：
-
-https://github.com/senler007/skills
-
-例如，只安装 `to-spec` 时，可以这样告诉 Codex：
-
-```text
-Use $skill-installer to install the to-spec Skill from https://github.com/senler007/skills/tree/main/skills/to-spec.
-```
-
-安装全部九个 Skill 时，可以这样说：
+把下面这一句话发给 Codex，一次安装全部九个 Skill：
 
 ```text
 Use $skill-installer to install all nine Skills from https://github.com/senler007/skills.
 ```
 
-标准安装器会把 `skills/` 下的每个目录识别为一个独立 Skill 包。安装后重新启动
-Codex，或开始一个新的 Codex 对话轮次，以便发现新安装的 Skill。
+安装完成后开始一个新的 Codex 对话，打开你的项目，然后按照下面的流程使用。
 
 ## 工作流
 
-常规流程分为五个阶段：
+什么时候进入下一步，由你决定：
 
-1. **一次性设置**：调用 `setup-senler-skills`，记录项目真实的 Tracker 和文档布局。
-2. **讨论设计**：调用 `grill-with-docs`，直到双方理解一致，长期设计文档也完成同步。
-3. **编写 Spec**：调用 `to-spec`，发布已经确认的变更和测试边界。
-4. **规划 Ticket**：调用 `to-tickets`，确认纵向切片的粒度和依赖关系。
-5. **实现**：把一个 Spec、一组 Ticket 或单个 Ticket 交给 `implement`；它会在提交前执行 TDD、文档同步和三轴审查。
+1. **只设置一次**：运行 `$setup-senler-skills`，让所有 Skill 知道项目文档和 Tracker 在哪里。
+2. **把设计聊清楚**：运行 `$grill-with-docs`。它每次只问一个决策，只把已经确认的答案写进项目文档。
+3. **为这次修改留下记录**：当一个功能或修改已经足够明确时，运行 `$to-spec`。
+4. **拆成真正能做的工作**：运行 `$to-tickets`，检查纵向切片和依赖关系，然后由你批准。
+5. **只实现指定范围**：把一个 Spec、一组 Ticket 或单个 Ticket 交给 `$implement`。它会测试、同步文档、审查并提交。
 
-每个显式工作流都会在完成自己的输出后停止。是否进入下一阶段由用户决定，任何
-工作流都不会擅自推进到另一个阶段。
+任何 Skill 都不会偷偷进入下一阶段。项目控制权始终在你手里。
 
-## 文档权威
+## 每个 Skill 是干什么的
 
-这套 Skill 会为每条长期事实指定唯一的权威来源，并把长期项目知识与 Tracker
-进度分开。项目概览、术语表、设计、架构、ADR 和 Tracker 的详细职责边界，以
-[`project-documentation` 角色说明](skills/project-documentation/references/document-roles.md)
-为准。其他文档只链接到权威来源，不再维护规则副本。
+### 显式工作流
 
-## Codex 支持
+只有你主动调用时才会运行。
 
-Codex 是首个正式支持并完成前向测试的运行环境。Skill 指令及其引用资料使用英文
-维护；生成或更新项目文档时，会遵循目标项目已经确定的语言、路径、大小写和术语。
-
-这些 Skill 会在可行范围内保持可移植性，但首个版本不承诺兼容所有支持 Skill 的工具。
-
-## 归属说明
-
-本项目在很大程度上借鉴了 Matt Pocock 的 AI Hero Skills 工作流，并作为一个独立、
-一次性派生版本维护。项目不会自动同步上游；后续上游变更只会以人工、主动选择的
-方式引入。MIT 许可信息见 [`LICENSE`](LICENSE)。
-
-| Skill | 来源 |
+| Skill | 用途 |
 | --- | --- |
-| `setup-senler-skills` | 本项目原创 |
-| `project-documentation` | 本项目原创 |
-| `grilling` | 派生自 AI Hero 工作流 |
-| `grill-with-docs` | 基于 AI Hero 工作流大幅重写 |
-| `to-spec` | 基于 AI Hero 工作流大幅重写 |
-| `to-tickets` | 派生自 AI Hero 工作流 |
-| `code-review` | 基于 AI Hero 工作流大幅重写 |
-| `tdd` | 派生自 AI Hero 工作流 |
-| `implement` | 基于 AI Hero 工作流大幅重写 |
+| `setup-senler-skills` | 告诉其他 Skill 项目的 Tracker 和文档在哪里，不会顺手创建一堆空文件。 |
+| `grill-with-docs` | 每次只问一个设计问题，把确认后的答案写进正确的项目文档。 |
+| `to-spec` | 只为这次修改留下一份简短记录，不把完整项目设计复制进去。 |
+| `to-tickets` | 把修改拆成完整的纵向切片，等你确认粒度和依赖以后才发布。 |
+| `implement` | 只实现你传入的范围，运行测试和审查，同步长期文档，然后提交。 |
+
+### 支持 Skill
+
+任务需要时，它们会提供相应纪律。
+
+| Skill | 用途 |
+| --- | --- |
+| `grilling` | 不让 AI 一次扔给你十个问题：一次一个决策、一个建议、一个回答。 |
+| `project-documentation` | 每条长期事实只保存在一个人能读懂的权威来源里，不到处复制。 |
+| `tdd` | 通过稳定的公开边界测试行为，而不是测试内部实现细节。 |
+| `code-review` | 分开审查 Standards、Spec 和 Documentation，而且不会修改你的文件。 |
+
+## 来源
+
+这套工作流很大程度上借鉴了 Matt Pocock 的 AIHero Skills。本仓库使用 MIT 许可、
+独立维护，并且不会自动同步上游。详情见 [`LICENSE`](LICENSE)。

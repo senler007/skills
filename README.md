@@ -2,95 +2,68 @@ English | [简体中文](README.zh-CN.md)
 
 # Senler Skills
 
-A focused Codex-first workflow for turning design discussion into reviewed,
-documented, and committed implementation. Tracker artifacts own delivery work;
-human-readable project documents preserve durable product knowledge.
+If you want to control your project instead of letting AI fuck it up and leave a
+mess, use this workflow. It keeps every design decision and code structure in
+human-readable project documentation.
 
-The first release contains exactly nine Skills.
+Those documents give you a clear view of the project's design and architecture,
+and keep AI from crossing boundaries.
 
-| Explicit workflow | Purpose |
-| --- | --- |
-| `setup-senler-skills` | Configure tracker, documentation paths, language, and agent guidance |
-| `grill-with-docs` | Resolve one design decision at a time and synchronize confirmed design |
-| `to-spec` | Publish completed discussion as a change-oriented Spec |
-| `to-tickets` | Publish approved tracer-bullet Tickets with genuine dependencies |
-| `implement` | Implement the requested scope, review blockers, validate, and commit |
+This workflow is largely inspired by AIHero, with three key changes:
 
-| Supporting discipline | Purpose |
-| --- | --- |
-| `grilling` | Keep interviews to one recommended decision question at a time |
-| `project-documentation` | Route each durable fact to one authoritative owner |
-| `tdd` | Test external behavior through confirmed stable seams |
-| `code-review` | Review Standards, Spec, and Documentation independently |
+- **Human-readable project docs.** Durable design and architecture stay in documents people can actually read.
+- **You control the workflow.** You decide which stage runs and when. AI does not orchestrate the project for you.
+- **Create a Spec whenever you want to build or change something.** Each Spec is a small AI-written record you can read later, not a giant document trying to own the whole project.
 
-## Installation
+## Set and Use
 
-Use Codex's standard `$skill-installer` with the public repository:
-
-https://github.com/senler007/skills
-
-For example, to install `to-spec`, ask Codex:
-
-```text
-Use $skill-installer to install the to-spec Skill from https://github.com/senler007/skills/tree/main/skills/to-spec.
-```
-
-To install the complete collection, ask:
+Paste this into Codex to install all nine Skills:
 
 ```text
 Use $skill-installer to install all nine Skills from https://github.com/senler007/skills.
 ```
 
-The standard installer accepts each directory under `skills/` as an individual
-package. Restart or begin a new Codex turn after installation so newly installed
-Skills are discovered.
+Start a new Codex turn after installation, open your project, and follow the workflow below.
 
 ## Workflow
 
-The normal five-stage flow is:
+You decide when to run each step:
 
-1. **Setup once** - invoke `setup-senler-skills` to record the project's real tracker and document map.
-2. **Grill** - invoke `grill-with-docs` until shared understanding and durable design agree.
-3. **Specify** - invoke `to-spec` to publish the approved change and testing seam.
-4. **Plan Tickets** - invoke `to-tickets` and approve vertical slices and dependency edges.
-5. **Implement** - invoke `implement` for a Spec, Ticket set, or single Ticket; it uses TDD, documentation synchronization, and three-axis review before committing.
+1. **Set up once** - run `$setup-senler-skills` so every Skill knows where your docs and tracker live.
+2. **Talk the design through** - run `$grill-with-docs`. It asks one decision at a time and writes only confirmed decisions to project docs.
+3. **Create a change record** - run `$to-spec` whenever a feature or change is clear enough to build.
+4. **Break it into real work** - run `$to-tickets`, check the slices and dependencies, then approve them.
+5. **Build exactly that scope** - run `$implement` with a Spec, a Ticket set, or one Ticket. It tests, updates docs, reviews the result, and commits.
 
-Each explicit workflow stops after its own output. The user starts the next stage;
-no workflow silently advances into another.
+Nothing silently starts the next stage. You stay in control.
 
-## Documentation authority
+## What Each Skill Does
 
-The collection gives every durable fact one authoritative owner and keeps
-long-lived project knowledge separate from tracker progress. See the
-[`project-documentation` role reference](skills/project-documentation/references/document-roles.md)
-for the authoritative boundaries among project overview, glossary, design,
-architecture, ADRs, and tracker work. Other documents link to those authorities
-instead of maintaining copies of their rules.
+### Explicit Workflows
 
-## Codex support
+These run only when you ask for them.
 
-Codex is the first supported and forward-tested environment. Skill instructions
-and bundled references are maintained in English. Generated or updated project
-documentation follows the configured project's existing language, paths, casing,
-and terminology.
-
-The Skills remain portable where practical, but this release does not claim full
-compatibility with every Skill-capable tool.
-
-## Attribution
-
-This is an independent, one-time derivative of the AI Hero skills workflow by
-Matt Pocock. It has no automatic upstream synchronization; later upstream changes
-are adopted manually and intentionally. See [`LICENSE`](LICENSE) for MIT licensing.
-
-| Skill | Origin |
+| Skill | What it does |
 | --- | --- |
-| `setup-senler-skills` | Original for this collection |
-| `project-documentation` | Original for this collection |
-| `grilling` | Derived from the AI Hero workflow |
-| `grill-with-docs` | Substantially rewritten from the AI Hero workflow |
-| `to-spec` | Substantially rewritten from the AI Hero workflow |
-| `to-tickets` | Derived from the AI Hero workflow |
-| `code-review` | Substantially rewritten from the AI Hero workflow |
-| `tdd` | Derived from the AI Hero workflow |
-| `implement` | Substantially rewritten from the AI Hero workflow |
+| `setup-senler-skills` | Tells the Skills where your tracker and project docs live without creating empty junk. |
+| `grill-with-docs` | Asks one design question at a time and writes confirmed answers to the right project document. |
+| `to-spec` | Creates a small record of one change instead of copying the whole project design. |
+| `to-tickets` | Splits the change into complete vertical slices and waits for you to approve the plan. |
+| `implement` | Implements only the scope you passed, runs tests and review, updates durable docs, and commits. |
+
+### Supporting Skills
+
+These provide discipline when the task needs it.
+
+| Skill | What it does |
+| --- | --- |
+| `grilling` | Stops AI from asking ten questions at once: one decision, one recommendation, one answer. |
+| `project-documentation` | Keeps each durable fact in one human-readable authority instead of duplicating it everywhere. |
+| `tdd` | Tests behavior through stable public seams instead of testing implementation details. |
+| `code-review` | Reviews Standards, Spec, and Documentation separately without changing your files. |
+
+## Credit
+
+Largely inspired by Matt Pocock's AIHero Skills workflow. This repository is MIT
+licensed, independently maintained, and does not automatically sync upstream.
+See [`LICENSE`](LICENSE).

@@ -58,11 +58,10 @@ class ReleaseContractTests(unittest.TestCase):
     def test_readme_explains_the_public_release(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         for heading in (
-            "## Installation",
+            "## Set and Use",
             "## Workflow",
-            "## Documentation authority",
-            "## Codex support",
-            "## Attribution",
+            "## What Each Skill Does",
+            "## Credit",
         ):
             self.assertIn(heading, readme)
 
