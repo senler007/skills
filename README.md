@@ -2,12 +2,10 @@ English | [简体中文](README.zh-CN.md)
 
 # Senler Skills
 
-If you want to control your project instead of letting AI fuck it up and leave a
-mess, use this workflow. It keeps every design decision and code structure in
-human-readable project documentation.
-
-Those documents give you a clear view of the project's design and architecture,
-and keep AI from crossing boundaries.
+If you want to control your own project instead of letting AI turn it into a mess,
+use this workflow. It makes AI ask about what it does not understand and work with
+you until each feature or solution is clear. Finally, it preserves every design
+decision and code structure in human-readable project documentation.
 
 This workflow is largely inspired by AIHero, with three key changes:
 
