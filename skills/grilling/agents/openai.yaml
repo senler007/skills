@@ -1,0 +1,6 @@
+interface:
+  display_name: "Grilling"
+  short_description: "Resolve design decisions one at a time"
+  default_prompt: "Use $grilling to stress-test this design one decision at a time."
+policy:
+  allow_implicit_invocation: true
