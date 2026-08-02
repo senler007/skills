@@ -10,6 +10,7 @@ The repository currently contains:
 - `project-documentation` routes confirmed decisions to one authoritative project document.
 - `grilling` resolves one user decision at a time before action.
 - `grill-with-docs` combines grilling with durable project-documentation synchronization.
+- `to-spec` publishes completed design discussion as a change-oriented Spec.
 
 Install any skill with a standard Codex-compatible skill installer by pointing
 it at this GitHub repository and the corresponding directory under `skills/`.
@@ -29,3 +30,4 @@ Matt Pocock. It is not automatically synchronized with that project. See
 | `project-documentation` | Original for this collection |
 | `grilling` | Derived from the AI Hero workflow |
 | `grill-with-docs` | Substantially rewritten from the AI Hero workflow |
+| `to-spec` | Substantially rewritten from the AI Hero workflow |
