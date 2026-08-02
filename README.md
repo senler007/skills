@@ -23,22 +23,24 @@ Paste this into Codex to install all nine Skills:
 Use $skill-installer to install all nine Skills from https://github.com/senler007/skills.
 ```
 
-Start a new Codex turn after installation, open your project, and follow the workflow below.
+After installation, start a new Codex turn, open your project, and run:
+
+```text
+Use $setup-senler-skills to configure this project so every Skill knows where its docs and tracker live.
+```
+
+This initializes the Skills for that project and only needs to run once.
 
 ## Workflow
 
 You decide when to run each step:
 
-1. **Set up once** - run `$setup-senler-skills` so every Skill knows where your docs and tracker live.
-   - **Example:** You add these Skills to an existing game repo. Point them at its GitHub Issues, existing design and architecture docs, and current document language instead of letting AI invent new paths.
+1. **Set up once** - run `$setup-senler-skills` to connect the Skills to this project's docs and tracker.
 2. **Talk the design through** - run `$grill-with-docs`. It asks one decision at a time and writes only confirmed decisions to project docs.
-   - **Example:** Before coding reconnect, grill the full Match lifecycle: grace period, active turn behavior, timeout, and final departure. Confirmed rules go into the right design document; unanswered ideas stay out.
+   - **Examples:** "Help me define the full turn lifecycle." "Walk me through the item-card system and clarify its design."
 3. **Create a change record** - run `$to-spec` whenever a feature or change is clear enough to build.
-   - **Example:** You already decided that right-click activates a card. Create a small Spec for changing the binding, feedback, and tests, while linking to the existing input design instead of copying every control rule.
 4. **Break it into real work** - run `$to-tickets`, check the slices and dependencies, then approve them.
-   - **Example:** Split reconnect into demonstrable slices such as restoring lobby state and restoring an active Match. Add a dependency only when one slice truly cannot start before another.
 5. **Build exactly that scope** - run `$implement` with a Spec, a Ticket set, or one Ticket. It tests, updates docs, reviews the result, and commits.
-   - **Example:** Give it only the active-Match reconnect Ticket. It should implement and verify that Ticket without quietly redesigning lobby reconnect or pulling in unrelated work.
 
 Nothing silently starts the next stage. You stay in control.
 
