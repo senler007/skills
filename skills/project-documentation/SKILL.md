@@ -7,7 +7,7 @@ description: Keep a project's durable human-readable documentation clear and aut
 
 Maintain human-readable project knowledge alongside the tracker workflow. This
 skill may activate implicitly, but it writes only confirmed decisions and settled
-outcomes—not brainstorming, temporary implementation state, or guesses.
+outcomes - not brainstorming, temporary implementation state, or guesses.
 
 ## Load the project's map
 
@@ -41,12 +41,12 @@ writing it.
 
 Choose exactly one authoritative owner for each fact:
 
-- project identity and navigation → project overview;
-- canonical term and short meaning → glossary;
-- confirmed player-visible behavior and rules for a large or distinct system → design document;
-- code/module/runtime responsibility → architecture;
-- hard-to-reverse or surprising decision with a real tradeoff → ADR;
-- goals, acceptance criteria, dependencies, status, and remaining delivery work → tracker.
+- project identity and navigation -> project overview;
+- canonical term and short meaning -> glossary;
+- confirmed player-visible behavior and rules for a large or distinct system -> design document;
+- code/module/runtime responsibility -> architecture;
+- hard-to-reverse or surprising decision with a real tradeoff -> ADR;
+- goals, acceptance criteria, dependencies, status, and remaining delivery work -> tracker.
 
 Link from consumers to the authority rather than copying the rule. A design
 document may explain behavior while architecture explains how code realizes it;
@@ -59,10 +59,10 @@ rules. Create a dedicated design document only for a large or independently
 understandable system. A dedicated document should stay human-oriented and use
 these conceptual sections when relevant:
 
-1. **Overview** — purpose and player-facing mental model.
-2. **Design** — interactions, flow, and important choices.
-3. **Rules** — confirmed constraints and edge cases.
-4. **Related Material** — links to tracker work, architecture, ADRs, or other authorities.
+1. **Overview** - purpose and player-facing mental model.
+2. **Design** - interactions, flow, and important choices.
+3. **Rules** - confirmed constraints and edge cases.
+4. **Related Material** - links to tracker work, architecture, ADRs, or other authorities.
 
 These are conceptual responsibilities, not a reason to add empty headings. Ask
 for explicit confirmation before creating any new design document. Updating an

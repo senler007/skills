@@ -1,32 +1,82 @@
 # Senler Skills
 
-A Codex-first collection of reusable development workflow skills. The workflow
-keeps tracker artifacts for delivery and project documents for durable product
-knowledge, so a finished feature remains understandable after its ticket closes.
+A focused Codex-first workflow for turning design discussion into reviewed,
+documented, and committed implementation. Tracker artifacts own delivery work;
+human-readable project documents preserve durable product knowledge.
 
-The repository currently contains:
+The first release contains exactly nine Skills.
 
-- `setup-senler-skills` configures tracker and documentation locations for a repository.
-- `project-documentation` routes confirmed decisions to one authoritative project document.
-- `grilling` resolves one user decision at a time before action.
-- `grill-with-docs` combines grilling with durable project-documentation synchronization.
-- `to-spec` publishes completed design discussion as a change-oriented Spec.
-- `to-tickets` publishes approved vertical-slice Tickets with real dependencies.
-- `code-review` independently reviews Standards, Spec, and Documentation.
-- `tdd` keeps tests at confirmed stable behavioral seams.
-- `implement` completes scoped work, remediates blockers, validates, and commits.
+| Explicit workflow | Purpose |
+| --- | --- |
+| `setup-senler-skills` | Configure tracker, documentation paths, language, and agent guidance |
+| `grill-with-docs` | Resolve one design decision at a time and synchronize confirmed design |
+| `to-spec` | Publish completed discussion as a change-oriented Spec |
+| `to-tickets` | Publish approved tracer-bullet Tickets with genuine dependencies |
+| `implement` | Implement the requested scope, review blockers, validate, and commit |
 
-Install any skill with a standard Codex-compatible skill installer by pointing
-it at this GitHub repository and the corresponding directory under `skills/`.
+| Supporting discipline | Purpose |
+| --- | --- |
+| `grilling` | Keep interviews to one recommended decision question at a time |
+| `project-documentation` | Route each durable fact to one authoritative owner |
+| `tdd` | Test external behavior through confirmed stable seams |
+| `code-review` | Review Standards, Spec, and Documentation independently |
 
-Skill source is written in English. Generated project documentation follows the
-configured project's language and preserves its existing paths and naming.
+## Installation
+
+Use Codex's standard `$skill-installer` with this public repository. For one Skill,
+ask Codex:
+
+```text
+Use $skill-installer to install skills/to-spec from senler007/skills.
+```
+
+To install the complete collection, ask:
+
+```text
+Use $skill-installer to install all nine skills from senler007/skills.
+```
+
+The standard installer accepts each directory under `skills/` as an individual
+package. Restart or begin a new Codex turn after installation so newly installed
+Skills are discovered.
+
+## Workflow
+
+The normal five-stage flow is:
+
+1. **Setup once** - invoke `setup-senler-skills` to record the project's real tracker and document map.
+2. **Grill** - invoke `grill-with-docs` until shared understanding and durable design agree.
+3. **Specify** - invoke `to-spec` to publish the approved change and testing seam.
+4. **Plan Tickets** - invoke `to-tickets` and approve vertical slices and dependency edges.
+5. **Implement** - invoke `implement` for a Spec, Ticket set, or single Ticket; it uses TDD, documentation synchronization, and three-axis review before committing.
+
+Each explicit workflow stops after its own output. The user starts the next stage;
+no workflow silently advances into another.
+
+## Documentation authority
+
+The collection gives every durable fact one authoritative owner and keeps
+long-lived project knowledge separate from tracker progress. See the
+[`project-documentation` role reference](skills/project-documentation/references/document-roles.md)
+for the authoritative boundaries among project overview, glossary, design,
+architecture, ADRs, and tracker work. Other documents link to those authorities
+instead of maintaining copies of their rules.
+
+## Codex support
+
+Codex is the first supported and forward-tested environment. Skill instructions
+and bundled references are maintained in English. Generated or updated project
+documentation follows the configured project's existing language, paths, casing,
+and terminology.
+
+The Skills remain portable where practical, but this release does not claim full
+compatibility with every Skill-capable tool.
 
 ## Attribution
 
 This is an independent, one-time derivative of the AI Hero skills workflow by
-Matt Pocock. It is not automatically synchronized with that project. See
-[`LICENSE`](LICENSE) for MIT licensing and attribution.
+Matt Pocock. It has no automatic upstream synchronization; later upstream changes
+are adopted manually and intentionally. See [`LICENSE`](LICENSE) for MIT licensing.
 
 | Skill | Origin |
 | --- | --- |

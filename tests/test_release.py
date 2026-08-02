@@ -1,0 +1,71 @@
+from pathlib import Path
+import re
+import unittest
+
+try:
+    from tests.metadata_support import parse_simple_metadata
+except ModuleNotFoundError:
+    from metadata_support import parse_simple_metadata
+
+
+ROOT = Path(__file__).resolve().parents[1]
+SKILLS = ROOT / "skills"
+EXPECTED_POLICIES = {
+    "setup-senler-skills": False,
+    "grill-with-docs": False,
+    "to-spec": False,
+    "to-tickets": False,
+    "implement": False,
+    "grilling": True,
+    "project-documentation": True,
+    "tdd": True,
+    "code-review": True,
+}
+
+
+class ReleaseContractTests(unittest.TestCase):
+    def test_release_contains_exactly_nine_valid_packages(self) -> None:
+        self.assertEqual(set(EXPECTED_POLICIES), {path.name for path in SKILLS.iterdir()})
+        for name, implicit in EXPECTED_POLICIES.items():
+            with self.subTest(skill=name):
+                root = SKILLS / name
+                self.assertTrue((root / "SKILL.md").is_file())
+                metadata = parse_simple_metadata(root / "agents" / "openai.yaml")
+                self.assertIn(f"${name}", metadata["interface"]["default_prompt"])
+                self.assertIs(
+                    implicit, metadata["policy"]["allow_implicit_invocation"]
+                )
+
+    def test_all_bundled_reference_links_resolve(self) -> None:
+        link_pattern = re.compile(r"\[[^]]+\]\(([^)]+)\)")
+        for skill_file in SKILLS.glob("*/SKILL.md"):
+            with self.subTest(skill=skill_file.parent.name):
+                for target in link_pattern.findall(
+                    skill_file.read_text(encoding="utf-8")
+                ):
+                    if "://" not in target and not target.startswith("#"):
+                        self.assertTrue((skill_file.parent / target).is_file(), target)
+
+    def test_skill_instructions_are_validator_portable_and_project_neutral(self) -> None:
+        forbidden = ("TableGame", "InputDesign", "EventDesign", "CardDesign")
+        for skill_file in SKILLS.glob("*/SKILL.md"):
+            text = skill_file.read_text(encoding="utf-8")
+            with self.subTest(skill=skill_file.parent.name):
+                text.encode("ascii")
+                for term in forbidden:
+                    self.assertNotIn(term, text)
+
+    def test_readme_explains_the_public_release(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        for heading in (
+            "## Installation",
+            "## Workflow",
+            "## Documentation authority",
+            "## Codex support",
+            "## Attribution",
+        ):
+            self.assertIn(heading, readme)
+
+
+if __name__ == "__main__":
+    unittest.main()
