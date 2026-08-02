@@ -1,0 +1,6 @@
+interface:
+  display_name: "TDD"
+  short_description: "Test behavior through stable public seams"
+  default_prompt: "Use $tdd to implement this behavior with a red-green loop at the confirmed seam."
+policy:
+  allow_implicit_invocation: true
