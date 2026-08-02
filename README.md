@@ -12,6 +12,7 @@ The repository currently contains:
 - `grill-with-docs` combines grilling with durable project-documentation synchronization.
 - `to-spec` publishes completed design discussion as a change-oriented Spec.
 - `to-tickets` publishes approved vertical-slice Tickets with real dependencies.
+- `code-review` independently reviews Standards, Spec, and Documentation.
 
 Install any skill with a standard Codex-compatible skill installer by pointing
 it at this GitHub repository and the corresponding directory under `skills/`.
@@ -33,3 +34,4 @@ Matt Pocock. It is not automatically synchronized with that project. See
 | `grill-with-docs` | Substantially rewritten from the AI Hero workflow |
 | `to-spec` | Substantially rewritten from the AI Hero workflow |
 | `to-tickets` | Derived from the AI Hero workflow |
+| `code-review` | Substantially rewritten from the AI Hero workflow |
