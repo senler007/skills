@@ -1,3 +1,5 @@
+English | [简体中文](README.zh-CN.md)
+
 # Senler Skills
 
 A focused Codex-first workflow for turning design discussion into reviewed,
@@ -23,17 +25,20 @@ The first release contains exactly nine Skills.
 
 ## Installation
 
-Use Codex's standard `$skill-installer` with this public repository. For one Skill,
-ask Codex:
+Use Codex's standard `$skill-installer` with the public repository:
+
+https://github.com/senler007/skills
+
+For example, to install `to-spec`, ask Codex:
 
 ```text
-Use $skill-installer to install skills/to-spec from senler007/skills.
+Use $skill-installer to install the to-spec Skill from https://github.com/senler007/skills/tree/main/skills/to-spec.
 ```
 
 To install the complete collection, ask:
 
 ```text
-Use $skill-installer to install all nine skills from senler007/skills.
+Use $skill-installer to install all nine Skills from https://github.com/senler007/skills.
 ```
 
 The standard installer accepts each directory under `skills/` as an individual

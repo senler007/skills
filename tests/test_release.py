@@ -66,6 +66,13 @@ class ReleaseContractTests(unittest.TestCase):
         ):
             self.assertIn(heading, readme)
 
+    def test_readmes_offer_bilingual_navigation(self) -> None:
+        english = (ROOT / "README.md").read_text(encoding="utf-8")
+        chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
+
+        self.assertIn("[简体中文](README.zh-CN.md)", english)
+        self.assertIn("[English](README.md)", chinese)
+
 
 if __name__ == "__main__":
     unittest.main()
