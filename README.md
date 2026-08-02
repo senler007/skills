@@ -31,7 +31,7 @@ This initializes the Skills for that project and only needs to run once.
 
 ## Workflow
 
-You decide when to run each step:
+Every feature or solution goes through these four steps. You decide when to move to the next step:
 
 1. **Talk the design through** - run `$grill-with-docs`. It asks one decision at a time and writes only confirmed decisions to project docs.
    - **Examples:** "Help me define the full turn lifecycle." "Walk me through the item-card system and clarify its design."
@@ -40,6 +40,14 @@ You decide when to run each step:
 4. **Build exactly that scope** - run `$implement` with a Spec, a Ticket set, or one Ticket. It tests, updates docs, reviews the result, and commits.
 
 Nothing silently starts the next stage. You stay in control.
+
+An example:
+[$grill-with-docs] I need to flesh out the duel system
+Talk it through with AI...
+[$to-spec]
+[$to-tickets]
+[$implement]
+Finish with a complete feature ready for human acceptance testing
 
 ## What Each Skill Does
 

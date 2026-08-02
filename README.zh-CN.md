@@ -28,7 +28,7 @@ Use $setup-senler-skills to configure this project so every Skill knows where it
 
 ## 工作流
 
-什么时候进入下一步，由你决定：
+所有功能或者方案都由以下四步进行.什么时候进入下一步，由你决定：
 
 1. **把设计聊清楚**：运行 `$grill-with-docs`。它每次只问一个决策，只把已经确认的答案写进项目文档。
    - **例子：**“帮我确定完整的回合生命周期。”“和我一起梳理道具卡系统的设计。”
@@ -36,7 +36,15 @@ Use $setup-senler-skills to configure this project so every Skill knows where it
 3. **拆成真正能做的工作**：运行 `$to-tickets`，检查纵向切片和依赖关系，然后由你批准。
 4. **只实现指定范围**：把一个 Spec、一组 Ticket 或单个 Ticket 交给 `$implement`。它会测试、同步文档、审查并提交。
 
-任何 Skill 都不会偷偷进入下一阶段。项目控制权始终在你手里。
+任何 Skill 都不会偷偷进入下一阶段。项目控制权始终在你手里
+
+一个例子 :
+[$grill-with-docs] 我需要完善一下决斗
+和AI聊 ...
+[$to-spec]
+[$to-tickets]
+[$implement]
+得出完整功能人为验收
 
 ## 每个 Skill 是干什么的
 
