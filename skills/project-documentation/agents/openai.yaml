@@ -1,0 +1,6 @@
+interface:
+  display_name: "Project Documentation"
+  short_description: "Keep durable project docs authoritative"
+  default_prompt: "Use $project-documentation to route these decisions to their authoritative project documents."
+policy:
+  allow_implicit_invocation: true
