@@ -33,12 +33,11 @@ This initializes the Skills for that project and only needs to run once.
 
 You decide when to run each step:
 
-1. **Set up once** - run `$setup-senler-skills` to connect the Skills to this project's docs and tracker.
-2. **Talk the design through** - run `$grill-with-docs`. It asks one decision at a time and writes only confirmed decisions to project docs.
+1. **Talk the design through** - run `$grill-with-docs`. It asks one decision at a time and writes only confirmed decisions to project docs.
    - **Examples:** "Help me define the full turn lifecycle." "Walk me through the item-card system and clarify its design."
-3. **Create a change record** - run `$to-spec` whenever a feature or change is clear enough to build.
-4. **Break it into real work** - run `$to-tickets`, check the slices and dependencies, then approve them.
-5. **Build exactly that scope** - run `$implement` with a Spec, a Ticket set, or one Ticket. It tests, updates docs, reviews the result, and commits.
+2. **Create a change record** - run `$to-spec` whenever a feature or change is clear enough to build.
+3. **Break it into real work** - run `$to-tickets`, check the slices and dependencies, then approve them.
+4. **Build exactly that scope** - run `$implement` with a Spec, a Ticket set, or one Ticket. It tests, updates docs, reviews the result, and commits.
 
 Nothing silently starts the next stage. You stay in control.
 
