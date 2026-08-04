@@ -91,17 +91,17 @@ class FoundationContractTests(unittest.TestCase):
         ).read_text(encoding="utf-8")
 
         for required_section in (
-            "One-minute module map",
-            "Key data flows",
-            "Production Unit Index",
-            "Complex-module Deep Dives",
-            "State ownership",
+            "一分钟模块地图",
+            "关键数据流",
+            "生产单元索引",
+            "复杂模块深入说明",
+            "状态所有权",
         ):
             with self.subTest(section=required_section):
                 self.assertIn(required_section, architecture)
 
-        self.assertIn("Do not add a mandatory document-boundary section", architecture)
-        self.assertIn("consider splitting the production unit", architecture)
+        self.assertIn("不要强制添加“文档边界”章节", architecture)
+        self.assertIn("优先考虑拆分生产单元", architecture)
 
     def test_documentation_skill_requires_one_daily_record_for_modifying_tasks(self) -> None:
         instructions = (

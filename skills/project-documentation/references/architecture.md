@@ -1,170 +1,161 @@
-# Architecture content contract
+# Architecture 内容规范
 
-Treat Architecture as a human-readable **code atlas**. It describes the current,
-stable production structure so a person or AI can understand the system, locate
-the right implementation unit, follow important runtime paths, and avoid crossing
-ownership or dependency boundaries.
+把 Architecture 当作一份人类可读的**代码地图（Code Atlas）**。它描述项目当前、稳定的生产代码结构，让人和 AI 都能快速理解系统、找到正确的实现单元、顺着关键运行路径定位问题，并避免越过状态所有权或依赖边界。
 
-Architecture answers four questions:
+Architecture 回答四个问题：
 
-1. **Where?** Where does a responsibility live?
-2. **What?** What is each production unit's single core responsibility?
-3. **How does it flow?** How do important intents, commands, events, and state move?
-4. **Who owns what?** Who owns state, which entry points are public, and which
-   dependency directions are allowed or forbidden?
+1. **在哪里（Where）？** 一项职责具体位于哪里？
+2. **做什么（What）？** 每个生产单元唯一的核心职责是什么？
+3. **怎么流动（How it flows）？** 关键意图、命令、事件和状态如何流动？
+4. **谁负责什么（Who owns what）？** 谁拥有状态、哪些入口可以公开调用，以及哪些依赖方向被允许或禁止？
 
-Do not add a mandatory document-boundary section. Make the content itself clear
-enough that readers can identify its purpose and navigate it immediately.
+不要强制添加“文档边界”章节。正文自身应足够清楚，让读者一打开就知道这份文档有什么用、该去哪里找信息。
 
-## Contents
+## 目录
 
-- [Required reading order](#required-reading-order)
-- [One-minute module map](#1-one-minute-module-map)
-- [Key data flows](#2-key-data-flows)
-- [Production Unit Index](#3-production-unit-index)
-- [Complex-module Deep Dives](#4-complex-module-deep-dives)
-- [Keep other concerns in their authorities](#keep-other-concerns-in-their-authorities)
-- [Maintain the atlas with the code](#maintain-the-atlas-with-the-code)
+- [固定阅读顺序](#固定阅读顺序)
+- [一分钟模块地图](#1-一分钟模块地图)
+- [关键数据流](#2-关键数据流)
+- [生产单元索引](#3-生产单元索引)
+- [复杂模块深入说明](#4-复杂模块深入说明)
+- [其他内容放回各自的权威文档](#其他内容放回各自的权威文档)
+- [代码变化时同步维护](#代码变化时同步维护)
 
-## Required reading order
+## 固定阅读顺序
 
-Keep these four layers in this order:
+Architecture 固定为以下四层，并保持这个顺序：
 
-1. **One-minute module map**
-2. **Key data flows**
-3. **Production Unit Index**
-4. **Complex-module Deep Dives**
+1. **一分钟模块地图**
+2. **关键数据流**
+3. **生产单元索引（Production Unit Index）**
+4. **复杂模块深入说明（Deep Dive）**
 
-Use only the layers the project actually needs, but never put detailed units
-before the module map or key flows needed to understand them.
+项目确实不需要的内容可以省略，但不要在读者尚未看懂模块地图和关键数据流之前，就先堆出大量具体代码单元。
 
-## 1. One-minute module map
+## 1. 一分钟模块地图
 
-Usually show 5-12 real, stable production boundaries that a reader can locate in
-the repository. Use fewer in a small system and never invent modules to reach a
-quota. Prefer actual packages, source directories, runtime modules, feature
-folders, subsystems, plugins, or equivalent ownership boundaries over conceptual
-layers that exist only in prose.
+通常列出 5～12 个真实、稳定，并且能在仓库中准确找到的生产模块。小项目可以更少，不要为了凑数量虚构模块。
 
-Use a compact table:
+优先使用项目中实际存在的边界，例如：包、源码目录、运行时模块、功能目录、子系统、插件，或其他明确的所有权边界。不要把只存在于文字里的概念层包装成模块。
 
-| Module | One-sentence responsibility | Public entry point | Code location |
+使用紧凑的表格：
+
+| 模块 | 一句话职责 | 公共入口 | 代码位置 |
 | --- | --- | --- | --- |
-| `<stable name>` | `<single core responsibility>` | `<supported caller-facing seam>` | `<exact path>` |
+| `<稳定名称>` | `<唯一的核心职责>` | `<供其他模块使用的正式入口>` | `<准确路径>` |
 
-Every module must have a stable name, one core responsibility, a supported entry
-point, and an exact code location. If a proposed module has none of these, treat
-it as a concept or flow rather than inventing a module boundary.
+每个模块都必须有稳定名称、一个核心职责、正式公共入口和准确代码位置。如果所谓的模块不具备这些条件，应把它当作概念或流程，而不是虚构一条模块边界。
 
-Add one small dependency diagram only when the table cannot show the permitted
-direction clearly. Use exact module names and label important relationships.
+只有当表格无法清楚表达允许的依赖方向时，才补一张小型依赖图。图中使用准确的模块名称，并标明关键关系。
 
-## 2. Key data flows
+## 2. 关键数据流
 
-Document only flows that cross production boundaries, establish state ownership,
-or are easy to implement incorrectly. Do not transcribe ordinary calls.
+只记录符合以下至少一项的数据流：
 
-Use this skeleton:
+- 跨越多个生产模块；
+- 决定或改变状态所有权；
+- 很容易被实现错。
+
+不要把普通函数调用逐条抄进文档。
+
+使用下面的基本结构：
 
 ```text
-Trigger
--> public entry point
--> authoritative handler and state owner
--> result consumers
+触发源
+-> 公共入口
+-> 权威处理者与状态所有者
+-> 结果消费者
 ```
 
-For each flow:
+每条数据流都应遵守这些规则：
 
-- use exact names from the Production Unit Index;
-- label arrows as intent, command, event, or state;
-- identify the step that mutates authoritative state;
-- keep the normal path to roughly 5-9 nodes and split longer flows;
-- prefer compact text or a small Mermaid diagram over detailed UML;
-- omit methods and line-by-line implementation details.
+- 使用生产单元索引里的准确名称；
+- 标明箭头传递的是意图、命令、事件还是状态；
+- 明确指出哪一步修改了权威状态；
+- 正常路径尽量控制在 5～9 个节点，过长就拆成多条流程；
+- 优先使用简短文本或小型 Mermaid 图，不画繁重的 UML；
+- 不记录普通方法和逐行实现细节。
 
-## 3. Production Unit Index
+## 3. 生产单元索引
 
-Index every stable production unit needed to locate and safely change the system.
-Group entries by their real repository paths. Depending on the project, units can
-include classes, modules, subsystems, components, behavior-bearing Blueprints or
-assets, services, packages, plugins, or Verse devices.
+列出所有为了定位系统和安全修改代码而需要了解的稳定生产单元，并按照它们在仓库中的真实路径分组。
 
-Treat a paired header and implementation file as one unit. Include exact names
-and paths so both humans and tools can search for them. Exclude tests, generated
-output, build output, temporary code, experiments, and passive content assets
-that carry no architectural responsibility.
+根据项目类型，生产单元可以包括：类、模块、子系统、组件、承担行为的 Blueprint 或资产、服务、包、插件、Verse Device，以及其他具有明确架构职责的单元。
 
-Give every unit exactly one sentence describing its single core responsibility.
-Do not list methods, members, implementation steps, or speculative future work.
-If the responsibility cannot be stated without joining unrelated jobs, first
-consider splitting the production unit instead of lengthening its description.
+配对的头文件和实现文件视为一个单元。名称和路径必须准确，使人和工具都能直接搜索到。以下内容不进入索引：
 
-The index is complete for stable production units but shallow by design. Link a
-unit to a Deep Dive only when its behavior meets the criteria below.
+- 测试代码；
+- 自动生成内容；
+- 构建产物；
+- 临时代码；
+- 实验代码；
+- 不承担架构职责的纯内容资产。
 
-## 4. Complex-module Deep Dives
+每个生产单元只用一句话描述唯一的核心职责。不要列方法、成员、实现步骤或猜测性的未来工作。
 
-Create a Deep Dive because a unit is difficult or risky to understand, not merely
-because it is important or large. A Deep Dive is justified when at least one is
-true:
+如果一句话必须拼接多个互不相关的工作才能描述这个单元，优先考虑拆分生产单元，而不是继续拉长说明。
 
-- it owns a complex lifecycle or state machine;
-- it involves networking, concurrency, asynchronous work, or prediction;
-- it coordinates several production modules;
-- its state ownership or dependency direction is non-obvious;
-- it protects important invariants;
-- its failure, interruption, recovery, or destruction behavior is complex;
-- humans or AI have repeatedly misunderstood or modified it across a boundary.
+索引应完整覆盖稳定生产单元，但说明必须保持简短。只有满足下一节条件的复杂单元，才链接到深入说明。
 
-Use only the relevant parts of this structure and omit empty headings:
+## 4. 复杂模块深入说明
+
+是否需要深入说明，取决于一个单元是否难以理解或修改风险较高，而不是它是否“重要”或代码量是否很大。
+
+满足以下任意一项时，可以建立深入说明：
+
+- 拥有复杂生命周期或状态机；
+- 涉及网络、并发、异步或预测；
+- 协调多个生产模块；
+- 状态所有权或依赖方向不直观；
+- 维护重要的不变量；
+- 失败、中断、恢复或销毁过程复杂；
+- 人或 AI 曾反复误解它，或者反复越界修改它。
+
+只使用真正需要的部分，空章节直接省略：
 
 ```markdown
-### <Production unit>
+### <生产单元>
 
-**One-sentence mental model**
-<What role does this unit play in the system?>
+**一句话心智模型**
+<这个单元在整个系统中扮演什么角色？>
 
-**Public entry points**
-<How should other units interact with it?>
+**公共入口**
+<其他单元应该通过什么方式与它交互？>
 
-**State ownership**
-<What does it own, and what explicitly belongs elsewhere?>
+**状态所有权**
+<它拥有什么状态？哪些状态明确属于其他地方？>
 
-**Collaboration and dependencies**
-<Who calls it, what it calls, and which reverse dependencies are forbidden?>
+**协作与依赖**
+<谁调用它、它调用谁，以及哪些反向依赖被禁止？>
 
-**Key flows and invariants**
-<What is easy to misunderstand, and what must remain true?>
+**关键流程与不变量**
+<哪些地方容易被误解？哪些条件必须始终成立？>
 
-**Failure and recovery**
-<How do failure, timeout, interruption, disconnect, or destruction finish safely?>
+**失败与恢复**
+<失败、超时、中断、断线或销毁时，如何安全结束？>
 ```
 
-Link to Design and ADR authorities rather than repeating their explanations. The
-implementation remains the authority for ordinary methods and low-level detail.
+对于产品行为和设计理由，链接到对应的 Design 文档或 ADR，不要在这里重复解释。普通方法和底层实现细节仍以代码为权威来源。
 
-## Keep other concerns in their authorities
+## 其他内容放回各自的权威文档
 
-Architecture describes current stable implementation structure and runtime
-collaboration. Route other information elsewhere:
+Architecture 只描述当前、稳定的实现结构和运行时协作关系。其他内容应放到各自的权威文档：
 
-- product behavior and rules -> Design;
-- reasons and meaningful tradeoffs -> ADR;
-- a proposed change and its acceptance criteria -> Spec;
-- delivery dependencies and current work -> Tickets or tracker;
-- tests, validation evidence, and completed-task summaries -> development record
-  or the repository's verification surfaces.
+- 产品行为与规则 → Design；
+- 设计原因与重要取舍 → ADR；
+- 准备实施的改动与验收标准 → Spec；
+- 开发依赖与当前工作 → Tickets 或任务追踪器；
+- 测试、验证证据与已完成任务摘要 → 开发记录或仓库中的验证入口。
 
-Do not keep implementation order, task status, exhaustive test lists, temporary
-migration state, or copied product rules in Architecture.
+不要在 Architecture 中维护实现顺序、任务状态、完整测试清单、临时迁移状态，或从产品设计文档复制过来的规则。
 
-## Maintain the atlas with the code
+## 代码变化时同步维护
 
-Update Architecture in the same task when a stable production unit is added,
-removed, moved, renamed, split, or given a different responsibility; when a
-public entry point or dependency direction changes; or when a key flow gains a
-different state owner.
+发生以下任何变化时，在同一个任务中同步更新 Architecture：
 
-Prefer discovering names and paths from repository tooling rather than memory.
-Keep prose human-reviewed: generated inventories can find drift, but they do not
-decide responsibilities, ownership, or permitted dependencies.
+- 新增、删除、移动、重命名或拆分稳定生产单元；
+- 生产单元的核心职责发生变化；
+- 公共入口或依赖方向发生变化；
+- 关键数据流改由另一个单元拥有权威状态。
+
+名称和路径应优先通过仓库工具从实际代码中获取，不要只凭记忆填写。工具可以生成清单和发现漂移，但职责、所有权和允许的依赖方向必须经过人类确认。
