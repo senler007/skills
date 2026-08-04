@@ -65,12 +65,20 @@ class ReleaseContractTests(unittest.TestCase):
         ):
             self.assertIn(heading, readme)
 
+        self.assertIn("Use only the stages your change needs", readme)
+        self.assertIn("optional", readme.lower())
+        self.assertNotIn("Every feature or solution goes through", readme)
+
     def test_readmes_offer_bilingual_navigation(self) -> None:
         english = (ROOT / "README.md").read_text(encoding="utf-8")
         chinese = (ROOT / "README.zh-CN.md").read_text(encoding="utf-8")
 
         self.assertIn("[简体中文](README.zh-CN.md)", english)
         self.assertIn("[English](README.md)", chinese)
+        self.assertIn("Use only the stages your change needs", english)
+        self.assertIn("只运行这次变更真正需要的阶段", chinese)
+        self.assertIn("small Spec directly", english)
+        self.assertIn("小而完整的 Spec", chinese)
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@
 
 这套工作流很大程度上借鉴了 AIHero，但有三个关键变化：
 
-- **维护一套人能读懂的项目文档。** 长期设计和架构留在真正能给人看的文档里。
+- **维护一套人能读懂的项目文档。** 每个主要模块用一份文档保存长期设计、当前代码结构和维护地图。
 - **流程由你控制。** 什么时候运行哪个阶段由你决定，不让 AI 替你组织整个项目。
 - **想做功能或修改时，随时创建一个 Spec。** 每个 Spec 只是 AI 为这次变更留下的一份简短记录，方便你以后阅读，而不是试图接管整个项目设计的巨型文档。
 
@@ -28,26 +28,27 @@ Use $setup-senler-skills to configure this project so every Skill knows where it
 
 ## 工作流
 
-所有功能或者方案都由以下四步进行.什么时候进入下一步，由你决定：
+只运行这次变更真正需要的阶段。调用哪个 Skill、什么时候调用，都由你决定：
 
-1. **把设计聊清楚**：运行 `$grill-with-docs`。它每次只问一个决策，只把已经确认的答案写进项目文档。
+1. **把设计聊清楚**：设计还不清楚时运行 `$grill-with-docs`。它每次只问一个决策，只把已经确认的答案写进项目文档。
    - **例子：**“帮我确定完整的回合生命周期。”“和我一起梳理道具卡系统的设计。”
 2. **为这次修改留下记录**：当一个功能或修改已经足够明确时，运行 `$to-spec`。
-3. **拆成真正能做的工作**：运行 `$to-tickets`，检查纵向切片和依赖关系，然后由你批准。
-4. **只实现指定范围**：把一个 Spec、一组 Ticket 或单个 Ticket 交给 `$implement`。它会测试、同步文档、审查并提交。
+3. **拆成真正能做的工作（可选）**：当 Spec 需要独立切片、依赖排序或分批交付时运行 `$to-tickets`，再由你批准拆分结果。
+4. **只实现指定范围**：小而完整的 Spec 可以直接交给 `$implement`；较大的 Spec 则实现其全部已批准 Tickets，也可以只传入一组 Ticket 或单个 Ticket。它会测试、同步文档、审查并提交。
 
 任何 Skill 都不会偷偷进入下一阶段。项目控制权始终在你手里
 
-**一个例子：**
+**一个小改动的例子：**
 
 ```text
 你说 : [$grill-with-docs] 我需要完善一下决斗
 和AI聊 ...
 你说 : [$to-spec]
-你说 : [$to-tickets]
 你说 : [$implement]
 得出完整功能人为验收
 ```
+
+如果工作较大，就在 `$to-spec` 和 `$implement` 之间运行 `[$to-tickets]`，先由你确认切片和依赖关系。
 
 ## 每个 Skill 是干什么的
 
@@ -60,8 +61,8 @@ Use $setup-senler-skills to configure this project so every Skill knows where it
 | `setup-senler-skills` | 告诉其他 Skill 项目的 Tracker 和文档在哪里，不会顺手创建一堆空文件。 |
 | `grill-with-docs` | 每次只问一个设计问题，把确认后的答案写进正确的项目文档。 |
 | `to-spec` | 只为这次修改留下一份简短记录，不把完整项目设计复制进去。 |
-| `to-tickets` | 把修改拆成完整的纵向切片，等你确认粒度和依赖以后才发布。 |
-| `implement` | 只实现你传入的范围，运行测试和审查，同步长期文档，然后提交。 |
+| `to-tickets` | 按需把较大的修改拆成完整纵向切片，等你确认粒度和依赖以后才发布。 |
+| `implement` | 直接实现小 Spec 或已批准的 Ticket 范围，运行测试和审查，同步长期文档，然后提交。 |
 
 ### 支持 Skill
 
@@ -70,7 +71,7 @@ Use $setup-senler-skills to configure this project so every Skill knows where it
 | Skill | 用途 |
 | --- | --- |
 | `grilling` | 不让 AI 一次扔给你十个问题：一次一个决策、一个建议、一个回答。 |
-| `project-documentation` | 每条长期事实只保存在一个人能读懂的权威来源里，并把每次已完成的项目修改写入当天的开发记录。 |
+| `project-documentation` | 把每个模块的设计、代码结构和维护地图保存在一份人能读懂的文档里，并把已完成的项目修改写入当天开发记录。 |
 | `tdd` | 通过稳定的公开边界测试行为，而不是测试内部实现细节。 |
 | `code-review` | 分开审查 Standards、Spec 和 Documentation，而且不会修改你的文件。 |
 

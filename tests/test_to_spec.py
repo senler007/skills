@@ -14,22 +14,22 @@ class ToSpecContractTests(unittest.TestCase):
         )
         self.assertIn("$to-spec", metadata)
         self.assertIn("allow_implicit_invocation: false", metadata)
+        self.assertIn("lightweight change spec", metadata)
 
     def test_change_spec_template_contains_required_sections(self) -> None:
         template = (SKILL_ROOT / "references" / "spec-template.md").read_text(
             encoding="utf-8"
         )
-        for heading in (
-            "Problem Statement",
-            "Desired Outcome",
-            "Design Changes",
-            "Scope",
-            "Implementation Decisions",
-            "Testing Decisions",
-            "Acceptance Criteria",
-        ):
-            with self.subTest(heading=heading):
-                self.assertIn(f"## {heading}", template)
+        headings = [
+            line.removeprefix("## ")
+            for line in template.splitlines()
+            if line.startswith("## ")
+        ]
+
+        self.assertEqual(
+            ["Goal", "Change", "Scope", "Acceptance & Testing"], headings
+        )
+        self.assertIn("Optional", template)
 
     def test_workflow_links_configuration_and_testing_confirmation(self) -> None:
         instructions = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")

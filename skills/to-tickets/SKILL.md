@@ -11,12 +11,16 @@ their granularity and dependencies.
 ## Gather authoritative context
 
 Locate `issue-tracker.md` through the repository's agent instructions. Read the
-full source Spec, plan, or completed discussion, including linked durable design,
-architecture, ADRs, and glossary terms needed to plan delivery. If the source is
-an Issue, read its complete body and relevant discussion.
+full source Spec, plan, or completed discussion, including linked module guides,
+ADRs, and glossary terms needed to plan delivery. If the source is an Issue,
+read its complete body and relevant discussion.
 
 Do not reopen settled design. Surface a genuinely blocking ambiguity instead of
 inventing a Ticket around it.
+
+If the source is already a small cohesive change that fits one implementation
+context and has no useful dependency split, explain that `$implement` can run the
+Spec directly and stop. Do not create Tickets only to satisfy ceremony.
 
 ## Draft tracer-bullet slices
 

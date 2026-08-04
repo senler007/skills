@@ -23,6 +23,7 @@ class ImplementationPackageContractTests(unittest.TestCase):
         )
         self.assertEqual("Implement", metadata["interface"]["display_name"])
         self.assertIn("$implement", metadata["interface"]["default_prompt"])
+        self.assertIn("Spec or Ticket scope", metadata["interface"]["default_prompt"])
         self.assertIs(False, metadata["policy"]["allow_implicit_invocation"])
 
     def test_tdd_bundles_required_references(self) -> None:
@@ -42,6 +43,15 @@ class ImplementationPackageContractTests(unittest.TestCase):
         )
 
         self.assertIn("daily development record", instructions)
+
+    def test_implement_can_run_a_small_cohesive_spec_without_tickets(self) -> None:
+        instructions = (SKILLS / "implement" / "SKILL.md").read_text(
+            encoding="utf-8"
+        ).lower()
+
+        self.assertIn("small cohesive spec", instructions)
+        self.assertIn("without tickets", instructions)
+        self.assertIn("approved tickets", instructions)
 
 
 if __name__ == "__main__":

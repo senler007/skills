@@ -14,9 +14,9 @@ Locate `issue-tracker.md` and `project-docs.md` through the repository's agent
 instructions. If configuration is missing, ask the user to run
 `$setup-senler-skills`; do not guess publication or durable-document paths.
 
-Read the completed conversation, relevant repository state, active durable design,
-glossary, architecture, ADRs, and related tracker work. Use the project's
-configured documentation language and canonical terms.
+Read the completed conversation, relevant repository state, active module guides,
+glossary, ADRs, and related tracker work. Use the project's configured
+documentation language and canonical terms.
 
 If a consequential product decision is unresolved, name it and stop. Recommend a
 return to `$grill-with-docs` rather than conducting a new interview inside this
@@ -24,20 +24,20 @@ workflow.
 
 ## Keep the Spec change-oriented
 
-Use [references/spec-template.md](references/spec-template.md). Explain the
-problem, desired outcome, design changes, scope, implementation decisions,
-testing decisions, and acceptance criteria needed to deliver this change.
+Use [references/spec-template.md](references/spec-template.md). Every Spec has
+only four required top-level sections: Goal, Change, Scope, and Acceptance &
+Testing. Add optional detail inside those sections only when it helps delivery.
 
 Treat durable project documents as authorities:
 
 - link complete system rules and canonical terminology instead of copying them;
 - describe only the behavioral delta needed to understand this change;
-- link architecture or ADRs when they constrain implementation;
-- keep status and remaining work in the tracker, not in design documents.
+- link module guides or ADRs when they constrain implementation;
+- keep status and remaining work in the tracker, not in module guides.
 
-When confirmed discussion has not yet reached an existing authoritative document,
-use `$project-documentation` to synchronize it before publication. Creating a new
-dedicated design document still requires user confirmation. Never publish an
+When confirmed discussion has not yet reached an existing authority, use
+`$project-documentation` to synchronize it before publication. Creating a new
+module guide still requires explicit human confirmation. Never publish an
 unconfirmed idea as either durable design or a Spec decision.
 
 ## Confirm the testing seam
@@ -52,9 +52,9 @@ one focused confirmation question and wait. This is the only required design
 confirmation in this synthesis workflow; it does not reopen settled feature
 decisions.
 
-Record the confirmed seam and important behavioral cases under Testing Decisions.
-Do not specify tests that assert prompt wording, private functions, or incidental
-file layout when an equivalent public behavior can be observed.
+Record the confirmed seam and important behavioral cases under Acceptance &
+Testing. Do not specify tests that assert prompt wording, private functions, or
+incidental file layout when equivalent public behavior can be observed.
 
 ## Publish through the configured tracker
 

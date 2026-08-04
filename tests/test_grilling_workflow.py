@@ -42,6 +42,12 @@ class GrillingWorkflowContractTests(unittest.TestCase):
         self.assertIn("shared understanding", workflow)
         self.assertIn("do not automatically invoke `$to-spec`", workflow)
 
+    def test_documentation_aware_workflow_uses_module_guides(self) -> None:
+        workflow = read_skill("grill-with-docs").lower()
+
+        self.assertIn("module guide", workflow)
+        self.assertIn("new module guide", workflow)
+
 
 if __name__ == "__main__":
     unittest.main()

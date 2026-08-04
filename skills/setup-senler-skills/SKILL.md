@@ -15,7 +15,7 @@ Read only enough context to locate:
 
 - the repository root and Git remote;
 - existing agent instruction files such as `AGENTS.md` or `CLAUDE.md`;
-- existing project, glossary, design, architecture, ADR, and tracker documentation;
+- existing project overview, glossary, module guides, ADR, and tracker documentation;
 - any existing daily development-record convention;
 - the established documentation directory casing and project language.
 
@@ -32,9 +32,10 @@ Summarize what was found, then confirm choices that cannot be inferred safely:
 2. **Agent instruction file.** Update an existing instruction file. If none
    exists, ask before creating one and recommend `AGENTS.md` for Codex-first use.
 3. **Project-document locations.** Reuse existing owners. For missing roles,
-   propose `PROJECT.md`, `docs/Glossary.md`, `docs/Design/`,
-   `docs/Architecture.md`, and `docs/adr/`, adapting directory casing to the
-   repository.
+   propose a project overview, glossary, module-guide directory or naming
+   convention, and ADR directory, adapting names and casing to the repository.
+   Module guides co-locate Design, Architecture, and Maintenance Map sections;
+   do not propose a standalone Architecture document.
 4. **Development record.** Reuse an existing dated task journal. When none exists,
    propose `docs/DevelopmentRecord/YYYY-MM-DD.md`, adapting directory casing to
    the repository.
@@ -42,8 +43,8 @@ Summarize what was found, then confirm choices that cannot be inferred safely:
    only when mixed usage leaves the answer ambiguous.
 
 Show the exact files and substantive configuration before writing, then wait for
-the user's explicit approval. Do not create empty project, glossary,
-architecture, ADR, or design documents during setup.
+the user's explicit approval. Do not create empty project, glossary, module-guide,
+or ADR documents during setup.
 
 ## Write the configuration
 
@@ -78,5 +79,5 @@ development record.
 
 Report the tracker mode, configuration files, instruction file, document
 language, development-record path, reused authorities, and proposed-but-uncreated
-document paths. Call out any ambiguity left for the user. Do not start a Spec or
-create tracker work as a side effect of setup.
+module-guide convention. Call out any ambiguity left for the user. Do not start
+a Spec or create tracker work as a side effect of setup.

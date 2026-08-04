@@ -49,6 +49,8 @@ class FoundationContractTests(unittest.TestCase):
         self.assertIn('allow_implicit_invocation: true', documentation_metadata)
         self.assertIn('$setup-senler-skills', setup_metadata)
         self.assertIn('$project-documentation', documentation_metadata)
+        self.assertIn('module docs', setup_metadata)
+        self.assertIn('module guides', documentation_metadata)
 
     def test_setup_bundles_every_supported_tracker_and_document_layout_contract(self) -> None:
         references = SKILLS_ROOT / "setup-senler-skills" / "references"
@@ -62,7 +64,7 @@ class FoundationContractTests(unittest.TestCase):
             with self.subTest(reference=filename):
                 self.assertTrue((references / filename).is_file())
 
-    def test_documentation_reference_defines_each_authoritative_role(self) -> None:
+    def test_documentation_reference_defines_the_module_guide_authority(self) -> None:
         roles = (
             SKILLS_ROOT
             / "project-documentation"
@@ -73,8 +75,9 @@ class FoundationContractTests(unittest.TestCase):
         for role in (
             "Project overview",
             "Glossary",
-            "Design systems",
-            "Architecture",
+            "Module guide",
+            "Design section",
+            "Architecture section",
             "ADRs",
             "Tracker work",
             "Development record",
@@ -82,26 +85,56 @@ class FoundationContractTests(unittest.TestCase):
             with self.subTest(role=role):
                 self.assertIn(role, roles)
 
-    def test_architecture_reference_defines_the_code_atlas_contract(self) -> None:
-        architecture = (
+    def test_module_guide_reference_defines_the_human_readable_contract(self) -> None:
+        guide = (
             SKILLS_ROOT
             / "project-documentation"
             / "references"
-            / "architecture.md"
+            / "module-guide-structure.md"
         ).read_text(encoding="utf-8")
 
         for required_section in (
-            "一分钟模块地图",
-            "关键数据流",
-            "生产单元索引",
-            "复杂模块深入说明",
-            "状态所有权",
+            "Module at a glance",
+            "Design",
+            "Architecture",
+            "Maintenance map",
+            "Common change recipes",
+            "Stable validation",
         ):
             with self.subTest(section=required_section):
-                self.assertIn(required_section, architecture)
+                self.assertIn(required_section, guide)
 
-        self.assertIn("不要强制添加“文档边界”章节", architecture)
-        self.assertIn("优先考虑拆分生产单元", architecture)
+        self.assertFalse(
+            (
+                SKILLS_ROOT
+                / "project-documentation"
+                / "references"
+                / "architecture.md"
+            ).exists()
+        )
+
+    def test_new_module_document_boundaries_require_human_confirmation(self) -> None:
+        instructions = " ".join((
+            SKILLS_ROOT / "project-documentation" / "SKILL.md"
+        ).read_text(encoding="utf-8").lower().split())
+
+        self.assertIn("new module guide", instructions)
+        self.assertIn("explicit human confirmation", instructions)
+
+    def test_setup_does_not_configure_a_standalone_architecture_document(self) -> None:
+        setup = (SKILLS_ROOT / "setup-senler-skills" / "SKILL.md").read_text(
+            encoding="utf-8"
+        )
+        template = (
+            SKILLS_ROOT
+            / "setup-senler-skills"
+            / "references"
+            / "project-docs.md"
+        ).read_text(encoding="utf-8")
+
+        self.assertNotIn("docs/Architecture.md", setup)
+        self.assertNotIn("- Architecture:", template)
+        self.assertIn("Module documentation:", template)
 
     def test_documentation_skill_requires_one_daily_record_for_modifying_tasks(self) -> None:
         instructions = (

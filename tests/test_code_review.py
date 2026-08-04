@@ -22,6 +22,8 @@ class ReviewContractTests(unittest.TestCase):
             self.assertIn(axis, skill)
         self.assertIn("read-only", skill.lower())
         self.assertIn("fixed point", skill.lower())
+        self.assertNotIn("launch three fresh review contexts", skill.lower())
+        self.assertIn("current context", skill.lower())
 
     def test_review_reference_covers_documentation_integrity(self) -> None:
         axes = (
@@ -30,7 +32,7 @@ class ReviewContractTests(unittest.TestCase):
         for concern in (
             "one authoritative owner",
             "accidental duplication",
-            "unapproved or unnecessary new design documents",
+            "unapproved or unnecessary new module guides",
             "explained code/design gaps",
         ):
             self.assertIn(concern, axes)

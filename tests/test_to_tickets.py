@@ -20,9 +20,20 @@ class ToTicketsContractTests(unittest.TestCase):
             self.assertIn(f"## {heading}", template)
 
     def test_workflow_requires_approval_and_preserves_parent(self) -> None:
-        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8").lower()
+        skill = " ".join(
+            (ROOT / "SKILL.md").read_text(encoding="utf-8").lower().split()
+        )
         self.assertIn("approval", skill)
         self.assertIn("do not close, rewrite, or republish the parent spec", skill)
+
+    def test_small_cohesive_specs_do_not_require_ticket_ceremony(self) -> None:
+        skill = " ".join(
+            (ROOT / "SKILL.md").read_text(encoding="utf-8").lower().split()
+        )
+
+        self.assertIn("small cohesive change", skill)
+        self.assertIn("can run the spec directly", skill)
+        self.assertIn("do not create tickets only to satisfy ceremony", skill)
 
 
 if __name__ == "__main__":

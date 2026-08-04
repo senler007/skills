@@ -29,16 +29,18 @@ Locate documented repository standards and the configured project-documentation
 map. If that map is missing, explain that `$setup-senler-skills` is required and
 report the Documentation axis as not reviewable; do not impose default paths.
 
-For the Documentation axis, load `$project-documentation`, its authoritative
-document-role reference, and the configured candidate documents affected by the
+For the Documentation axis, load `$project-documentation`, its document-role
+reference, and the configured module guides or other authorities affected by the
 diff. Read [references/review-axes.md](references/review-axes.md) for review-specific
 checks and the smell baseline. Repository standards override judgement-call
 smell advice.
 
 ## Run three independent reviews
 
-Launch three fresh review contexts in parallel when subagents are available. Give
-each the same diff and commit list but only the authority needed for its axis:
+Run three independent review passes. By default, perform them one at a time in
+the current context. Parallel isolated contexts may be used when available and
+useful, but they are not required. Give each pass the same diff and commit list
+and evaluate only the authority for its axis:
 
 1. **Standards** - documented repository rules plus the named smell baseline.
 2. **Spec** - missing or partial requirements, scope creep, and incorrect behavior
@@ -46,9 +48,9 @@ each the same diff and commit list but only the authority needed for its axis:
 3. **Documentation** - authoritative ownership, synchronization, granularity,
    relationships, and explained code/design gaps.
 
-Do not let one reviewer see or rerank another reviewer's conclusions. Require
-each finding to include severity, exact file/hunk, evidence, violated authority,
-and a concise remediation direction. Skip issues that automated tooling already
+Do not let conclusions from one axis replace or rerank another axis. Require each
+finding to include severity, exact file/hunk, evidence, violated authority, and a
+concise remediation direction. Skip issues that automated tooling already
 reports more precisely.
 
 ## Classify without fixing

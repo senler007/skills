@@ -1,6 +1,6 @@
 interface:
   display_name: "Setup Senler Skills"
-  short_description: "Configure tracker project docs and daily records"
+  short_description: "Configure tracker module docs and daily records"
   default_prompt: "Use $setup-senler-skills to configure this repository for the Senler workflow."
 policy:
   allow_implicit_invocation: false

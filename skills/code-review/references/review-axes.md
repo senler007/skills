@@ -22,10 +22,11 @@ ownership boundaries. Do not duplicate or reinterpret those rules here. Then
 check all of the following against the diff and configured candidate documents:
 
 - one authoritative owner per durable fact;
-- missing updates to confirmed design, glossary, architecture, or ADRs;
+- missing updates to confirmed module-guide Design or Architecture sections,
+  glossary, or ADRs;
 - accidental duplication of durable rules across documents or tracker work;
 - synchronization after changed terms, behavior, responsibilities, or rationale;
-- unapproved or unnecessary new design documents;
+- unapproved or unnecessary new module guides;
 - explained code/design gaps against active Specs and Tickets;
 - broken links or relationships among durable authorities, Specs, and Tickets;
 - configured language and path casing.

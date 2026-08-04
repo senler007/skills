@@ -10,17 +10,17 @@ placeholder and omit roles the project intentionally does not maintain.
 - Language: `{project documentation language}`
 - Project overview: `{existing or proposed path}`
 - Glossary: `{existing or proposed path}`
-- Design directory: `{existing or proposed path}`
-- Architecture: `{existing or proposed path}`
+- Module documentation: `{existing guides, directory, or naming convention}`
 - ADR directory: `{existing or proposed path}`
 - Development records: `{existing or proposed YYYY-MM-DD path}`
 - Tracker configuration: `{path to issue-tracker.md}`
 
 Use `$project-documentation` to route confirmed durable knowledge. Preserve these
 paths and their existing casing. One fact has one authoritative owner; other
-documents link to it instead of restating it. Update an existing authority only
-after the decision is confirmed. Ask before creating a new design document, and
-never create empty documents as placeholders. After a task actually changes the
-project, use `$project-documentation` to update the configured daily development
-record once; read-only tasks do not create a record.
+documents link to it instead of restating it. Existing module guides may be
+updated after decisions are confirmed. Creating a new module guide requires
+explicit human confirmation, and empty documents are never created as
+placeholders. After a task actually changes the project, use
+`$project-documentation` to update the configured daily development record once;
+read-only tasks do not create a record.
 ```

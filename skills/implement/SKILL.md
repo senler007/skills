@@ -11,7 +11,11 @@ Complete the requested scope without silently adding adjacent work.
 
 Read the configured tracker and project-documentation map, then resolve the input:
 
-- **Spec** - implement its associated approved Ticket work, respecting dependencies.
+- **Spec** - when it has approved Tickets, implement that approved set while
+  respecting dependencies. A small cohesive Spec may be implemented directly
+  without Tickets when its scope and acceptance criteria fit one implementation
+  context. If it needs independent slices, dependency approval, or staged
+  delivery, stop and recommend `$to-tickets` instead of inventing the breakdown.
 - **Ticket set** - implement exactly that set in dependency order.
 - **single Ticket** - implement only that Ticket and its stated acceptance criteria.
 
@@ -35,11 +39,11 @@ or weakening them.
 ## Synchronize durable outcomes
 
 Use `$project-documentation` for confirmed implementation outcomes that affect
-target design, canonical terms, module/runtime responsibilities, or an accepted
-architectural decision. Update or create exactly one authoritative owner as
-directed by `$project-documentation`, then link from consumers; do not duplicate
-facts or turn progress into durable design. Creating a new dedicated design
-document still requires user confirmation.
+target design, canonical terms, module/runtime responsibilities, assets,
+configuration, or an accepted architectural decision. Update the applicable
+Design, Architecture, or Maintenance Map section of an existing module guide,
+then link from consumers; do not duplicate facts or turn progress into durable
+design. Creating a new module guide requires explicit human confirmation.
 
 An implementation that intentionally has not reached confirmed target design
 remains tracker progress. Surface any unexplained code/document conflict.
