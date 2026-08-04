@@ -77,9 +77,25 @@ class FoundationContractTests(unittest.TestCase):
             "Architecture",
             "ADRs",
             "Tracker work",
+            "Development record",
         ):
             with self.subTest(role=role):
                 self.assertIn(role, roles)
+
+    def test_documentation_skill_requires_one_daily_record_for_modifying_tasks(self) -> None:
+        instructions = (
+            SKILLS_ROOT / "project-documentation" / "SKILL.md"
+        ).read_text(encoding="utf-8")
+        setup_template = (
+            SKILLS_ROOT
+            / "setup-senler-skills"
+            / "references"
+            / "project-docs.md"
+        ).read_text(encoding="utf-8")
+
+        self.assertIn("daily development record", instructions)
+        self.assertIn("Never create or update it for a read-only task", instructions)
+        self.assertIn("Development records:", setup_template)
 
 
 if __name__ == "__main__":

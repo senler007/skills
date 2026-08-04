@@ -1,19 +1,20 @@
 ---
 name: project-documentation
-description: Keep a project's durable human-readable documentation clear and authoritative. Use when confirmed feature decisions, terminology, architecture, ADRs, or tracker outcomes need routing or updating; when deciding where a rule belongs; or when code and documentation appear inconsistent.
+description: Keep durable project documentation authoritative and maintain the configured daily development record. Use when confirmed feature decisions, terminology, architecture, ADRs, or tracker outcomes need routing or updating; when deciding where a rule belongs; when code and documentation appear inconsistent; or after a task actually changes code, docs, configuration, assets, Git/Editor state, or settles a durable decision.
 ---
 
 # Project Documentation
 
-Maintain human-readable project knowledge alongside the tracker workflow. This
-skill may activate implicitly, but it writes only confirmed decisions and settled
-outcomes - not brainstorming, temporary implementation state, or guesses.
+Maintain human-readable project knowledge alongside the tracker workflow and one
+concise daily record of completed changes. This skill may activate implicitly,
+but durable authorities receive only confirmed decisions and settled outcomes.
 
 ## Load the project's map
 
 Find the project-documentation configuration named by the repository's agent
-instructions. If it is missing, explain that `$setup-senler-skills` should be run;
-do not silently impose this skill's default paths.
+instructions. It must map both authoritative document roles and the development
+record path. If either configuration or the record path is missing, explain that
+`$setup-senler-skills` should be run; do not silently impose default paths.
 
 Read only the configuration and candidate authoritative documents needed for the
 current fact. Follow their established path casing, language, terminology, and
@@ -52,6 +53,10 @@ Link from consumers to the authority rather than copying the rule. A design
 document may explain behavior while architecture explains how code realizes it;
 neither should absorb the other's detail.
 
+The development record is not another authority. It briefly reports completed
+work and links to an authority when needed; it does not own product rules,
+architecture, delivery scope, or progress state.
+
 ## Maintain design documents deliberately
 
 Prefer a section in an existing design document for small, closely related
@@ -86,9 +91,27 @@ When code and durable documentation differ:
 Never quietly rewrite documentation to match code, or code to match
 documentation, when intent is unexplained.
 
+## Maintain the daily development record
+
+After a task actually changes code, documentation, configuration, assets,
+Git/Editor state, or settles a durable decision, update the configured record
+once before reporting completion. Never create or update it for a read-only task.
+
+Use the configured language, path, and local date. Reuse the day's existing file
+and append without overwriting earlier work. Preserve user-written goal text and
+merge one conversation task into one concise actual-implementation section.
+Follow an existing project template; when the day's file is absent, create only
+the minimal date, goal, and actual-implementation structure required by that
+project.
+
+Record actual results, key configuration, and direct validation. Include a small
+diagram only when architecture or data flow changed. Do not record plans,
+brainstorming, guesses, per-message chronology, secrets, or tracker status that
+already belongs in the configured tracker.
+
 ## Report the maintenance result
 
-State which authority was updated, what confirmed knowledge it now owns, and
-which documents merely link to it. If no write was appropriate, say why. Keep
-generated documentation in the project's configured language even though this
-skill source is English.
+State which authority was updated, what confirmed knowledge it now owns, which
+documents merely link to it, and which daily development record was updated. If
+no write was appropriate, say why. Keep generated documentation in the project's
+configured language even though this skill source is English.

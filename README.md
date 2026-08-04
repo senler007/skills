@@ -73,7 +73,7 @@ These provide discipline when the task needs it.
 | Skill | What it does |
 | --- | --- |
 | `grilling` | Stops AI from asking ten questions at once: one decision, one recommendation, one answer. |
-| `project-documentation` | Keeps each durable fact in one human-readable authority instead of duplicating it everywhere. |
+| `project-documentation` | Keeps each durable fact in one human-readable authority and records each completed project change in the daily development record. |
 | `tdd` | Tests behavior through stable public seams instead of testing implementation details. |
 | `code-review` | Reviews Standards, Spec, and Documentation separately without changing your files. |
 

@@ -70,7 +70,7 @@ Use $setup-senler-skills to configure this project so every Skill knows where it
 | Skill | 用途 |
 | --- | --- |
 | `grilling` | 不让 AI 一次扔给你十个问题：一次一个决策、一个建议、一个回答。 |
-| `project-documentation` | 每条长期事实只保存在一个人能读懂的权威来源里，不到处复制。 |
+| `project-documentation` | 每条长期事实只保存在一个人能读懂的权威来源里，并把每次已完成的项目修改写入当天的开发记录。 |
 | `tdd` | 通过稳定的公开边界测试行为，而不是测试内部实现细节。 |
 | `code-review` | 分开审查 Standards、Spec 和 Documentation，而且不会修改你的文件。 |
 

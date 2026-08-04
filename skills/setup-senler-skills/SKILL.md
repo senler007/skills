@@ -16,6 +16,7 @@ Read only enough context to locate:
 - the repository root and Git remote;
 - existing agent instruction files such as `AGENTS.md` or `CLAUDE.md`;
 - existing project, glossary, design, architecture, ADR, and tracker documentation;
+- any existing daily development-record convention;
 - the established documentation directory casing and project language.
 
 Existing paths, casing, terminology, and language take precedence over the
@@ -34,7 +35,10 @@ Summarize what was found, then confirm choices that cannot be inferred safely:
    propose `PROJECT.md`, `docs/Glossary.md`, `docs/Design/`,
    `docs/Architecture.md`, and `docs/adr/`, adapting directory casing to the
    repository.
-4. **Document language.** Infer it from durable project documentation and ask
+4. **Development record.** Reuse an existing dated task journal. When none exists,
+   propose `docs/DevelopmentRecord/YYYY-MM-DD.md`, adapting directory casing to
+   the repository.
+5. **Document language.** Infer it from durable project documentation and ask
    only when mixed usage leaves the answer ambiguous.
 
 Show the exact files and substantive configuration before writing, then wait for
@@ -59,7 +63,8 @@ repository has no established location:
 
 Add a concise `## Senler skills` section to the confirmed agent instruction file.
 It should tell future agents where those two configurations live and to follow
-them. Merge with an existing section instead of duplicating it.
+them, including the configured daily development record. Merge with an existing
+section instead of duplicating it.
 
 Record actual repository-specific values, not unresolved placeholders. Avoid
 copying the detailed document-role rules into multiple files; the configuration
@@ -68,7 +73,10 @@ should map roles to paths and defer maintenance behavior to
 
 ## Finish
 
+Use `$project-documentation` to record the completed setup in the configured
+development record.
+
 Report the tracker mode, configuration files, instruction file, document
-language, reused authorities, and proposed-but-uncreated document paths. Call out
-any ambiguity left for the user. Do not start a Spec or create tracker work as a
-side effect of setup.
+language, development-record path, reused authorities, and proposed-but-uncreated
+document paths. Call out any ambiguity left for the user. Do not start a Spec or
+create tracker work as a side effect of setup.

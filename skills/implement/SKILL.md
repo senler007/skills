@@ -44,6 +44,10 @@ document still requires user confirmation.
 An implementation that intentionally has not reached confirmed target design
 remains tracker progress. Surface any unexplained code/document conflict.
 
+Whether or not a durable authority changed, use `$project-documentation` once at
+the end to update the configured daily development record for the completed
+implementation. Do not turn the record into a second copy of the Spec or Ticket.
+
 ## Review and remediate blockers
 
 Invoke `$code-review` against the recorded fixed point after implementation. Keep

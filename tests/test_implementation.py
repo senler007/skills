@@ -36,6 +36,13 @@ class ImplementationPackageContractTests(unittest.TestCase):
         self.assertTrue((root / "SKILL.md").is_file())
         self.assertTrue((root / "agents" / "openai.yaml").is_file())
 
+    def test_implement_updates_the_daily_development_record(self) -> None:
+        instructions = (SKILLS / "implement" / "SKILL.md").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("daily development record", instructions)
+
 
 if __name__ == "__main__":
     unittest.main()

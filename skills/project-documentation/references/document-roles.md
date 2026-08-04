@@ -11,6 +11,7 @@ may have different names; roles matter more than filenames.
 | Architecture | Code/module boundaries, runtime responsibilities, important data flow, and integration seams | Product intent, tracker status, or historical rationale better recorded in an ADR |
 | ADRs | Accepted, hard-to-reverse or surprising decisions with context, alternatives, tradeoffs, and consequences | Routine choices, mutable rules, or implementation progress |
 | Tracker work | Specs, tickets, acceptance criteria, dependencies, current status, and remaining work | Long-term explanation of the finished product |
+| Development record | Concise completed-change summaries, key configuration, and direct validation for each modifying task | Product rules, architecture authority, plans, brainstorming, or tracker status |
 
 ## Boundary rules
 
@@ -27,6 +28,9 @@ may have different names; roles matter more than filenames.
   responsibility; an ADR preserves why a consequential choice was made.
 - **Small versus independent.** Keep ordinary related rules together. Split out a
   design document only when the system is large or useful to understand on its own.
+- **Authority versus journal.** Durable documents and the tracker own project
+  truth; the development record is a dated journal that links to them rather than
+  becoming another source of truth.
 
 ## Conflict check
 
