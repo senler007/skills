@@ -82,6 +82,27 @@ class FoundationContractTests(unittest.TestCase):
             with self.subTest(role=role):
                 self.assertIn(role, roles)
 
+    def test_architecture_reference_defines_the_code_atlas_contract(self) -> None:
+        architecture = (
+            SKILLS_ROOT
+            / "project-documentation"
+            / "references"
+            / "architecture.md"
+        ).read_text(encoding="utf-8")
+
+        for required_section in (
+            "One-minute module map",
+            "Key data flows",
+            "Production Unit Index",
+            "Complex-module Deep Dives",
+            "State ownership",
+        ):
+            with self.subTest(section=required_section):
+                self.assertIn(required_section, architecture)
+
+        self.assertIn("Do not add a mandatory document-boundary section", architecture)
+        self.assertIn("consider splitting the production unit", architecture)
+
     def test_documentation_skill_requires_one_daily_record_for_modifying_tasks(self) -> None:
         instructions = (
             SKILLS_ROOT / "project-documentation" / "SKILL.md"

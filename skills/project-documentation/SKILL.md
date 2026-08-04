@@ -21,6 +21,10 @@ current fact. Follow their established path casing, language, terminology, and
 style. Load [references/document-roles.md](references/document-roles.md) when the
 target role or a boundary between roles is unclear.
 
+Load [references/architecture.md](references/architecture.md) whenever creating,
+restructuring, or materially updating an Architecture document. Do not impose
+that contract on Design, ADR, Spec, or development-record documents.
+
 ## Decide whether the fact is durable
 
 Write documentation only when the information is confirmed and will help a
