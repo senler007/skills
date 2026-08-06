@@ -1,75 +1,109 @@
 ---
 name: to-tickets
-description: Convert a Spec, approved plan, or completed discussion into user-approved tracer-bullet Tickets with genuine dependency edges, then publish them through the configured GitHub, local, or custom tracker. Use when the user explicitly asks to break understood work into implementation Tickets.
+description: Break a plan, Spec, or the current conversation into a set of tracer-bullet Tickets, each declaring its blocking edges, published to the configured tracker. Use when the user explicitly asks to split understood work into implementation Tickets.
 ---
 
 # To Tickets
 
-Plan narrow, complete delivery slices and publish only after the user approves
-their granularity and dependencies.
+Break a plan, Spec, or conversation into a set of **Tickets** — tracer-bullet vertical slices, each declaring the Tickets that **block** it.
 
-## Gather authoritative context
+The issue tracker should have been provided to you — run `$setup-senler-skills` if not.
 
-Locate `issue-tracker.md` through the repository's agent instructions. Read the
-full source Spec, plan, or completed discussion, including linked module guides,
-ADRs, and glossary terms needed to plan delivery. If the source is an Issue,
-read its complete body and relevant discussion.
+## Process
 
-Do not reopen settled design. Surface a genuinely blocking ambiguity instead of
-inventing a Ticket around it.
+### 1. Gather context
 
-If the source is already a small cohesive change that fits one implementation
-context and has no useful dependency split, explain that `$implement` can run the
-Spec directly and stop. Do not create Tickets only to satisfy ceremony.
+Work from whatever is already in the conversation context. If the user passes a reference (a Spec path, an Issue number or URL) as an argument, fetch it and read its full body and comments.
 
-## Draft tracer-bullet slices
+### 2. Explore the codebase (optional)
 
-Each Ticket must deliver a narrow but complete path through the layers it needs.
-It must fit a fresh implementation context and be independently demonstrable or
-verifiable when complete. Avoid horizontal Tickets such as "add all models" or
-"write all tests" whose value exists only after later work.
+If you have not already explored the codebase, do so to understand the current state of the code. Ticket titles and descriptions should use the project's terminology, module guides, and ADRs.
 
-Declare only blockers that genuinely prevent implementation from starting. Mere
-ordering preference, shared topic, or convenience is not a dependency. Keep
-independent Tickets parallel and identify the ready frontier.
+Look for opportunities to prefactor the code to make the implementation easier. "Make the change easy, then make the easy change."
 
-For a wide mechanical migration that cannot be vertically sliced while keeping
-the project green, use **expand-migrate-contract**:
+### 3. Draft vertical slices
 
-1. expand with the new form beside the old;
-2. migrate bounded caller groups in independently green batches;
-3. contract only after every migration blocker completes.
+Break the work into **tracer bullet** Tickets.
 
-Use an integration branch/final verification Ticket only when individual migrate
-batches genuinely cannot stay green.
+<vertical-slice-rules>
 
-Draft each Ticket with [references/ticket-template.md](references/ticket-template.md).
-Write acceptance criteria for observable completion and necessary documentation
-synchronization, not a layer-by-layer task list.
+- Each slice cuts a narrow but COMPLETE path through every layer (schema, API, UI, tests) — vertical, NOT a horizontal slice of one layer
+- A completed slice is demoable or verifiable on its own
+- Each slice is sized to fit in a single fresh context window
+- Any prefactoring should be done first
 
-## Obtain breakdown approval
+</vertical-slice-rules>
 
-Present a numbered proposal before publication. For every Ticket show its title,
-what complete behavior it delivers, acceptance summary, and genuine blockers.
-Ask the user to approve the granularity and dependency graph and to identify any
-Ticket that should be merged, split, or made independent. Revise until approval
-is explicit.
+Give each Ticket its **blocking edges** — the other Tickets that must complete before it can start. A Ticket with no blockers can start immediately.
 
-## Publish in dependency order
+**Wide refactors are the exception to vertical slicing.** A **wide refactor** is one mechanical change — rename a column, retype a shared symbol — whose **blast radius** fans across the whole codebase, so a single edit breaks thousands of call sites at once and no vertical slice can land green. Don't force it into a tracer bullet; sequence it as **expand–contract**. First expand: add the new form beside the old so nothing breaks. Then migrate the call sites over in batches sized by blast radius (per package, per directory), each batch its own Ticket blocked by the expand, keeping CI green batch to batch because the old form still exists. Finally contract: delete the old form once no caller remains, in a Ticket blocked by every migrate batch. When even the batches can't stay green alone, keep the sequence but let them share an integration branch that all block a final integrate-and-verify Ticket — green is promised only there.
 
-Follow the configured tracker:
+### 4. Quiz the user
 
-- **GitHub:** create one Issue per approved Ticket, blockers first. Apply the
-  configured ready label, attach every Ticket to the parent Spec with the native
-  sub-issue relationship when available, and use native blocking relationships
-  when available. Otherwise record real Issue references under Blocked by.
-- **Local:** write one file per Ticket at the configured ticket location, numbered
-  in dependency order. Record blocker file numbers/titles and ready status in
-  each file; never publish a combined Ticket file.
-- **Custom:** preserve the configured parent, dependency, identifier, and state
-  model without inventing unsupported relationships.
+Present the proposed breakdown as a numbered list. For each Ticket, show:
 
-Do not close, rewrite, or republish the parent Spec. Do not edit durable design
-documents merely to mirror Ticket scope. Report the published identifiers, parent
-relationships, dependency frontier, and any parallel work. Stop there: do not
-invoke `$implement`, implement a Ticket, review, or commit.
+- **Title**: short descriptive name
+- **Blocked by**: which other Tickets (if any) must complete first
+- **What it delivers**: the end-to-end behavior this Ticket makes work
+
+Ask the user:
+
+- Does the granularity feel right? (too coarse / too fine)
+- Are the blocking edges correct — does each Ticket only depend on Tickets that genuinely gate it?
+- Should any Tickets be merged or split further?
+
+Iterate until the user approves the breakdown.
+
+### 5. Publish the Tickets to the configured tracker
+
+Publish the approved Tickets. **How** depends on the tracker `$setup-senler-skills` configured — the Tickets are the same either way, only the shape of the blocking edges changes:
+
+- **Local files** → write one file per Ticket at the configured Ticket path, numbered from `01` in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-Ticket file template below — one Ticket per file, never a single combined file.
+- **A real issue tracker** → publish one Issue per Ticket in dependency order (blockers first) so each Ticket's blocking edges can reference real identifiers. Use native blocking and sub-issue relationships where available; otherwise record the relationships in the Issue body. Apply the configured ready label or state.
+- **A custom tracker** → follow its configured identifiers, relationships, and state rules.
+
+Explicit invocation of `$to-tickets` authorizes publication of the approved Ticket set and its configured relationships or labels. After the user approves the breakdown, do not ask for another publication confirmation. When the configured tracker is external, publish directly and do not create temporary Ticket files inside the repository.
+
+Work the **frontier**: any Ticket whose blockers are all done. For a purely linear chain that means top to bottom.
+
+Do NOT close or modify any parent Spec.
+
+<local-ticket-template>
+
+# <NN> — <Ticket title>
+
+**What to build:** the end-to-end behavior this Ticket makes work, from the user's perspective — not a layer-by-layer implementation list.
+
+**Blocked by:** the numbers/titles of the Tickets that gate this one, or "None — can start immediately".
+
+**Status:** ready-for-agent
+
+- [ ] Acceptance criterion 1
+- [ ] Acceptance criterion 2
+
+</local-ticket-template>
+
+<issue-template>
+
+## Parent
+
+A reference to the parent Spec on the tracker (if the source was an existing Spec, otherwise omit this section).
+
+## What to build
+
+The end-to-end behavior this Ticket makes work, from the user's perspective — not a layer-by-layer implementation list.
+
+## Acceptance criteria
+
+- [ ] Criterion 1
+- [ ] Criterion 2
+
+## Blocked by
+
+- A reference to each blocking Ticket, or "None — can start immediately".
+
+</issue-template>
+
+In either form, avoid specific file paths or code snippets — they go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it and note briefly that it came from a prototype. Trim to the decision-rich parts — not a working demo, just the important bits.
+
+Do not automatically invoke `$implement`; the user chooses the next workflow.

@@ -1,73 +1,60 @@
 ---
 name: to-spec
-description: Synthesize completed discussion and repository context into a change-oriented Spec, confirm the highest practical behavioral testing seam, and publish through the configured tracker. Use when the user explicitly asks to turn an already-understood feature or design into a Spec or PRD.
+description: Turn the current conversation into a lightweight Spec and publish it to the configured project tracker — no interview, just synthesis of what has already been discussed. Use when the user explicitly asks to create a Spec or PRD.
 ---
 
-# To Spec
+This skill takes the current conversation context and codebase understanding and
+produces a Spec. Do NOT interview the user — just synthesize what is already
+known.
 
-Turn existing shared understanding into a publishable change record. Do not
-restart the design interview or invent answers to unresolved product decisions.
+The issue tracker and project-documentation layout should have been provided by
+`$setup-senler-skills`. Run it first if `issue-tracker.md` or `project-docs.md`
+is missing.
 
-## Load configuration and context
+## Process
 
-Locate `issue-tracker.md` and `project-docs.md` through the repository's agent
-instructions. If configuration is missing, ask the user to run
-`$setup-senler-skills`; do not guess publication or durable-document paths.
+1. Explore the repo to understand the current state of the codebase, if you have
+   not already. Use the project's terminology throughout the Spec, respect ADRs,
+   and link relevant module guides instead of copying their durable content.
 
-Read the completed conversation, relevant repository state, active module guides,
-glossary, ADRs, and related tracker work. Use the project's configured
-documentation language and canonical terms.
+2. Sketch the seams at which the change will be tested. Prefer existing seams to
+   new ones and use the highest seam possible. The fewer seams across the change,
+   the better; one is ideal.
 
-If a consequential product decision is unresolved, name it and stop. Recommend a
-return to `$grill-with-docs` rather than conducting a new interview inside this
-workflow.
+   Check with the user that these seams match their expectations.
 
-## Keep the Spec change-oriented
+3. Write the Spec using the template below, then publish it to the configured
+   project tracker. Apply the configured ready label or state; no additional
+   triage is needed.
 
-Use [references/spec-template.md](references/spec-template.md). Every Spec has
-only four required top-level sections: Goal, Change, Scope, and Acceptance &
-Testing. Add optional detail inside those sections only when it helps delivery.
+Invoking `$to-spec` explicitly authorizes this one Spec publication and its
+configured ready label. Do not ask for a second confirmation before publishing.
+In GitHub mode, create the Issue directly and do not write a temporary Spec file
+inside the repository.
 
-Treat durable project documents as authorities:
+<spec-template>
 
-- link complete system rules and canonical terminology instead of copying them;
-- describe only the behavioral delta needed to understand this change;
-- link module guides or ADRs when they constrain implementation;
-- keep status and remaining work in the tracker, not in module guides.
+## Goal
 
-When confirmed discussion has not yet reached an existing authority, use
-`$project-documentation` to synchronize it before publication. Creating a new
-module guide still requires explicit human confirmation. Never publish an
-unconfirmed idea as either durable design or a Spec decision.
+The problem the user is facing and the observable result this change should
+produce.
 
-## Confirm the testing seam
+## Change
 
-Identify the highest practical seam that observes external behavior and is stable
-across implementation refactors. Prefer an existing seam and as few seams as
-possible. Use repository prior art rather than proposing a new harness by default.
+The confirmed behavioral and maintenance delta. Include implementation decisions
+only when they were already settled and are needed to prevent ambiguity. Link
+module guides or ADRs instead of copying long-lived project knowledge.
 
-If the testing seam was not already confirmed in the discussion, present the
-proposal, its observable behavior, and why it is the highest practical seam. Ask
-one focused confirmation question and wait. This is the only required design
-confirmation in this synthesis workflow; it does not reopen settled feature
-decisions.
+## Scope
 
-Record the confirmed seam and important behavioral cases under Acceptance &
-Testing. Do not specify tests that assert prompt wording, private functions, or
-incidental file layout when equivalent public behavior can be observed.
+What this change includes and explicitly excludes.
 
-## Publish through the configured tracker
+## Acceptance & Testing
 
-Render the complete Spec in the configured project language, verify all required
-sections and links, then publish according to `issue-tracker.md`:
+Objective completion criteria, the agreed testing seams, observable cases, and
+required project-documentation synchronization.
 
-- **GitHub:** create one Issue in the configured repository and apply the
-  configured Spec/ready label. Preserve any configured parent relationship.
-- **Local:** write the Spec to the configured feature Spec path; do not place it
-  among durable project documentation.
-- **Custom:** use the documented system, identifiers, relationship model, and
-  state conventions without inventing unsupported fields.
+</spec-template>
 
-Use the exact confirmed content for publication. Report the resulting Issue URL
-or local/custom identifier and a short link summary. Stop after publishing: do
-not invoke `$to-tickets`, create tickets, implement, review, or commit.
+Report the published identifier or URL. Do not automatically start
+`$to-tickets` or `$implement`; the user chooses the next workflow.

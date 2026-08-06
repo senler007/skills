@@ -1,72 +1,99 @@
 ---
 name: code-review
-description: "Perform a read-only review of a change across three independent axes: repository Standards, originating Spec fidelity, and Documentation integrity. Use when the user asks to review a branch, diff, pull request, implementation, or changes since a fixed point."
+description: Review the changes since a fixed point (commit, branch, tag, or merge-base) along three axes — Standards, Spec, and Documentation — and report them side by side. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to "review since X".
 ---
 
-# Code Review
+Three-axis review of the diff between `HEAD` and a fixed point the user supplies:
 
-Review without modifying code, documentation, tracker work, Git state, or external
-systems. Findings are the output; fixes require a separate authorized workflow.
+- **Standards** — does the code conform to this repo's documented coding standards?
+- **Spec** — does the code faithfully implement the originating issue / PRD / spec?
+- **Documentation** — do the changed behavior and code structure match their authoritative human-readable project documentation?
 
-## Pin the review range
+Run all three axes in the current conversation. Do not create sub-agents.
 
-Obtain the fixed comparison point from the user or invoking workflow. Resolve it
-before review and fail early if it is invalid. Capture one exact diff command and
-commit list for every reviewer. Use merge-base comparison for committed branch
-work; include staged and working-tree changes when the requested review covers
-uncommitted implementation.
+The issue tracker and project-documentation layout should have been provided to you — run `$setup-senler-skills` if `docs/agents/issue-tracker.md` or `docs/agents/project-docs.md` is missing.
 
-Verify the diff is non-empty. State the fixed point, compared tip or working tree,
-diff command, and commit list in the final report.
+## Process
 
-## Gather authority
+### 1. Pin the fixed point
 
-Identify the originating Spec or Ticket from the user's reference, commit
-messages, configured tracker, or matching repository document. If none exists,
-ask whether the Spec axis should be skipped.
+Whatever the user said is the fixed point — a commit SHA, branch name, tag, `main`, `HEAD~5`, etc. If they didn't specify one, ask for it.
 
-Locate documented repository standards and the configured project-documentation
-map. If that map is missing, explain that `$setup-senler-skills` is required and
-report the Documentation axis as not reviewable; do not impose default paths.
+Capture the diff command once: `git diff <fixed-point>...HEAD` (three-dot, so the comparison is against the merge-base). Also note the list of commits via `git log <fixed-point>..HEAD --oneline`.
 
-For the Documentation axis, load `$project-documentation`, its document-role
-reference, and the configured module guides or other authorities affected by the
-diff. Read [references/review-axes.md](references/review-axes.md) for review-specific
-checks and the smell baseline. Repository standards override judgement-call
-smell advice.
+Before going further, confirm the fixed point resolves (`git rev-parse <fixed-point>`) and the diff is non-empty. A bad ref or empty diff should fail here — not inside the review passes.
 
-## Run three independent reviews
+### 2. Identify the spec source
 
-Run three independent review passes. By default, perform them one at a time in
-the current context. Parallel isolated contexts may be used when available and
-useful, but they are not required. Give each pass the same diff and commit list
-and evaluate only the authority for its axis:
+Look for the originating spec, in this order:
 
-1. **Standards** - documented repository rules plus the named smell baseline.
-2. **Spec** - missing or partial requirements, scope creep, and incorrect behavior
-   against the originating work item.
-3. **Documentation** - authoritative ownership, synchronization, granularity,
-   relationships, and explained code/design gaps.
+1. Issue references in the commit messages (`#123`, `Closes #45`, GitLab `!67`, etc.) — fetch via the workflow in `docs/agents/issue-tracker.md`.
+2. A path the user passed as an argument.
+3. A PRD/spec file under `docs/`, `specs/`, or `.scratch/` matching the branch name or feature.
+4. If nothing is found, ask the user where the spec is. If they say there isn't one, skip the **Spec** axis and report "no spec available".
 
-Do not let conclusions from one axis replace or rerank another axis. Require each
-finding to include severity, exact file/hunk, evidence, violated authority, and a
-concise remediation direction. Skip issues that automated tooling already
-reports more precisely.
+### 3. Identify the standards sources
 
-## Classify without fixing
+Anything in the repo that documents how code should be written, such as `CODING_STANDARDS.md` or `CONTRIBUTING.md`.
 
-Classify clear documented-standard violations, clear Spec failures, and clear
-missing or incorrect documentation updates as **blocking**. Classify smells,
-optional refactors, debatable wording, design changes, and scope-expanding ideas
-as **judgement calls** unless a documented authority makes them mandatory.
+On top of whatever the repo documents, the Standards axis always carries the **smell baseline** below — a fixed set of Fowler code smells (_Refactoring_, ch.3) that applies even when a repo documents nothing. Two rules bind it:
 
-Standalone `$code-review` is always read-only, including for obvious blockers.
-Do not apply patches, update Issues, stage files, commit, or launch an
-implementation workflow.
+- **The repo overrides.** A documented repo standard always wins; where it endorses something the baseline would flag, suppress the smell.
+- **Always a judgement call.** Each smell is a labelled heuristic ("possible Feature Envy"), never a hard violation — and, like any standard here, skip anything tooling already enforces.
 
-## Report axes separately
+Each smell reads *what it is* → *how to fix*; match it against the diff:
 
-Present `Standards`, `Spec`, and `Documentation` as separate sections. Preserve
-severity within each axis and do not collapse them into one overall score. End
-with finding counts, the worst finding per axis, and a clear list of blocking
-items versus judgement calls.
+- **Mysterious Name** — a function, variable, or type whose name doesn't reveal what it does or holds. → rename it; if no honest name comes, the design's murky.
+- **Duplicated Code** — the same logic shape appears in more than one hunk or file in the change. → extract the shared shape, call it from both.
+- **Feature Envy** — a method that reaches into another object's data more than its own. → move the method onto the data it envies.
+- **Data Clumps** — the same few fields or params keep travelling together (a type wanting to be born). → bundle them into one type, pass that.
+- **Primitive Obsession** — a primitive or string standing in for a domain concept that deserves its own type. → give the concept its own small type.
+- **Repeated Switches** — the same `switch`/`if`-cascade on the same type recurs across the change. → replace with polymorphism, or one map both sites share.
+- **Shotgun Surgery** — one logical change forces scattered edits across many files in the diff. → gather what changes together into one module.
+- **Divergent Change** — one file or module is edited for several unrelated reasons. → split so each module changes for one reason.
+- **Speculative Generality** — abstraction, parameters, or hooks added for needs the spec doesn't have. → delete it; inline back until a real need shows.
+- **Message Chains** — long `a.b().c().d()` navigation the caller shouldn't depend on. → hide the walk behind one method on the first object.
+- **Middle Man** — a class or function that mostly just delegates onward. → cut it, call the real target direct.
+- **Refused Bequest** — a subclass or implementer that ignores or overrides most of what it inherits. → drop the inheritance, use composition.
+
+### 4. Identify the documentation sources
+
+Read `docs/agents/project-docs.md`, `$project-documentation`, and the module guides or other documentation authorities affected by the diff.
+
+### 5. Run the three review passes
+
+Use the same diff command and commit list for every pass.
+
+**Standards pass:**
+
+- Report — per file/hunk where relevant — (a) every place the diff violates a documented standard: cite the standard (file + the rule); and (b) any baseline smell you spot: name it and quote the hunk.
+- Distinguish hard violations from judgement calls — documented-standard breaches can be hard, but baseline smells are always judgement calls, and a documented repo standard overrides the baseline.
+- Skip anything tooling enforces.
+
+**Spec pass:**
+
+- Report: (a) requirements the spec asked for that are missing or partial; (b) behaviour in the diff that wasn't asked for (scope creep); (c) requirements that look implemented but where the implementation looks wrong.
+- Quote the spec line for each finding.
+
+If the spec is missing, skip the Spec pass and note this in the final report.
+
+**Documentation pass:**
+
+- Report missing, incorrect, duplicated, or unapproved documentation changes.
+- Cite the applicable project-documentation rule and file for each finding.
+
+### 6. Aggregate
+
+Present the three reports under `## Standards`, `## Spec`, and `## Documentation` headings, verbatim or lightly cleaned. Do **not** merge or rerank findings — the three axes are deliberately separate (see _Why three axes_).
+
+End with a one-line summary: total findings per axis, and the worst issue _within each axis_ (if any). Don't pick a single winner across axes — that's the reranking the separation exists to prevent.
+
+## Why three axes
+
+A change can pass one axis and fail another:
+
+- Code that follows every standard but implements the wrong thing → **Standards pass, Spec fail.**
+- Code that does exactly what the issue asked but breaks the project's conventions → **Spec pass, Standards fail.**
+- Code and behavior can both be correct while the human-readable project documentation is stale → **Standards and Spec pass, Documentation fail.**
+
+Reporting them separately stops one axis from masking another.

@@ -1,79 +1,22 @@
 ---
 name: implement
-description: Implement exactly the user-supplied Spec, Ticket set, or single Ticket; use TDD at confirmed seams, synchronize durable documentation, remediate clear three-axis review blockers, validate, and commit. Use only when the user explicitly asks to implement scoped work.
+description: Implement a piece of work based on a Spec or set of Tickets. Use only when the user explicitly asks to implement scoped work.
 ---
 
-# Implement
+Implement the work described by the user in the Spec or Tickets. A Spec is
+sufficient input — do not require `$to-tickets` first.
 
-Complete the requested scope without silently adding adjacent work.
+Use `$tdd` where possible, at pre-agreed seams.
 
-## Resolve exact scope
+Run typechecking regularly, single test files regularly, and the full test suite
+once at the end.
 
-Read the configured tracker and project-documentation map, then resolve the input:
+Use `$project-documentation` to synchronize confirmed outcomes with existing
+module guides and update the configured daily development record. Ask before
+creating a new module guide.
 
-- **Spec** - when it has approved Tickets, implement that approved set while
-  respecting dependencies. A small cohesive Spec may be implemented directly
-  without Tickets when its scope and acceptance criteria fit one implementation
-  context. If it needs independent slices, dependency approval, or staged
-  delivery, stop and recommend `$to-tickets` instead of inventing the breakdown.
-- **Ticket set** - implement exactly that set in dependency order.
-- **single Ticket** - implement only that Ticket and its stated acceptance criteria.
+Once done, use `$code-review` to review the work.
 
-Read full bodies, relationships, linked authorities, and relevant repository rules.
-Do not pull in a blocker that is not complete; report the blocked frontier instead.
-Record the pre-implementation Git fixed point for later review and preserve
-unrelated user changes in the working tree.
+Commit the work to the current branch.
 
-## Agree tests and implement
-
-Use `$tdd` where behavior warrants automated coverage. Reuse the testing seam
-confirmed by the Spec; if absent, propose the highest practical stable seam and
-wait for confirmation. Documentation-only or purely mechanical work need not
-invent a behavioral test, but still needs proportionate validation.
-
-Work in narrow vertical slices. Run the focused test or check during each slice,
-nearby checks regularly, and the repository's required broader verification once
-the requested scope is complete. Stop on unexplained failures rather than hiding
-or weakening them.
-
-## Synchronize durable outcomes
-
-Use `$project-documentation` for confirmed implementation outcomes that affect
-target design, canonical terms, module/runtime responsibilities, assets,
-configuration, or an accepted architectural decision. Update the applicable
-Design, Architecture, or Maintenance Map section of an existing module guide,
-then link from consumers; do not duplicate facts or turn progress into durable
-design. Creating a new module guide requires explicit human confirmation.
-
-An implementation that intentionally has not reached confirmed target design
-remains tracker progress. Surface any unexplained code/document conflict.
-
-Whether or not a durable authority changed, use `$project-documentation` once at
-the end to update the configured daily development record for the completed
-implementation. Do not turn the record into a second copy of the Spec or Ticket.
-
-## Review and remediate blockers
-
-Invoke `$code-review` against the recorded fixed point after implementation. Keep
-Standards, Spec, and Documentation findings separate.
-
-Fix clear blocking findings within the authorized scope, rerun affected focused
-checks, and repeat the relevant review axis until blockers are resolved. Report,
-rather than automatically apply, judgement-call refactors, scope expansion,
-optional improvements, and design changes. Ask for authority when a blocker can
-only be resolved by changing confirmed design or expanding scope.
-
-## Validate and commit
-
-Run required broad verification and confirm the diff contains only intended work.
-Create a commit only when:
-
-- requested acceptance criteria are met;
-- required tests and validation pass;
-- affected durable authorities are synchronized;
-- no clear in-scope review blocker remains.
-
-Use an intentional message referencing the work item. Report commit identifiers,
-validation, documentation updates, resolved blockers, and remaining judgement
-calls. Do not push, close tracker work, or start another workflow unless the user
-also authorizes it.
+Do not push or close tracker work unless the user also asks.

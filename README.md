@@ -34,11 +34,11 @@ This initializes the Skills for that project and only needs to run once.
 
 Use only the stages your change needs. You decide which Skill runs and when:
 
-1. **Talk the design through** - run `$grill-with-docs` when the design is still unclear. It asks one decision at a time and writes only confirmed decisions to project docs.
+1. **Talk the design through** - run `$grill-with-docs` when the design is still unclear. It asks one decision at a time, then writes the consolidated decisions to project docs only after you confirm the final summary.
    - **Examples:** "Help me define the full turn lifecycle." "Walk me through the item-card system and clarify its design."
 2. **Create a change record** - run `$to-spec` whenever a feature or change is clear enough to build.
 3. **Break it into real work (optional)** - run `$to-tickets` when the Spec needs independent slices, dependency ordering, or staged delivery, then approve the breakdown.
-4. **Build exactly that scope** - run `$implement` with a small Spec directly, all approved Tickets from a larger Spec, a Ticket set, or one Ticket. It tests, updates docs, reviews the result, and commits.
+4. **Build exactly that scope** - run `$implement` directly with a Spec or a set of Tickets. It tests, updates docs, reviews the result, and commits.
 
 Nothing silently starts the next stage. You stay in control.
 
@@ -64,10 +64,10 @@ These run only when you ask for them.
 | Skill | What it does |
 | --- | --- |
 | `setup-senler-skills` | Tells the Skills where your tracker and project docs live without creating empty junk. |
-| `grill-with-docs` | Asks one design question at a time and writes confirmed answers to the right project document. |
+| `grill-with-docs` | Asks one design question at a time, gets final confirmation, then writes the consolidated decisions to the right project document in one pass. |
 | `to-spec` | Creates a small record of one change instead of copying the whole project design. |
 | `to-tickets` | Optionally splits larger work into complete vertical slices and waits for you to approve the plan. |
-| `implement` | Implements a small Spec directly or approved Ticket scope, runs tests and review, updates durable docs, and commits. |
+| `implement` | Implements a Spec or Ticket scope directly, runs tests and review, updates durable docs, and commits. |
 
 ### Supporting Skills
 

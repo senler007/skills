@@ -16,10 +16,16 @@ class ToSpecContractTests(unittest.TestCase):
         self.assertIn("allow_implicit_invocation: false", metadata)
         self.assertIn("lightweight change spec", metadata)
 
-    def test_change_spec_template_contains_required_sections(self) -> None:
-        template = (SKILL_ROOT / "references" / "spec-template.md").read_text(
-            encoding="utf-8"
-        )
+    def test_spec_is_synthesis_not_another_interview(self) -> None:
+        skill = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
+
+        self.assertIn("Do NOT interview the user", skill)
+        self.assertIn("Check with the user that these seams match", skill)
+        self.assertNotIn("consequential product decision is unresolved", skill)
+
+    def test_inline_template_has_only_the_four_approved_sections(self) -> None:
+        skill = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
+        template = skill.split("<spec-template>", 1)[1].split("</spec-template>", 1)[0]
         headings = [
             line.removeprefix("## ")
             for line in template.splitlines()
@@ -29,14 +35,13 @@ class ToSpecContractTests(unittest.TestCase):
         self.assertEqual(
             ["Goal", "Change", "Scope", "Acceptance & Testing"], headings
         )
-        self.assertIn("Optional", template)
 
-    def test_workflow_links_configuration_and_testing_confirmation(self) -> None:
-        instructions = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8")
-        self.assertIn("issue-tracker.md", instructions)
-        self.assertIn("project-docs.md", instructions)
-        self.assertIn("confirm", instructions.lower())
-        self.assertIn("testing seam", instructions.lower())
+    def test_explicit_invocation_publishes_without_duplicate_permission(self) -> None:
+        skill = (SKILL_ROOT / "SKILL.md").read_text(encoding="utf-8").lower()
+
+        self.assertIn("authorizes this one spec publication", skill)
+        self.assertIn("do not ask for a second confirmation", skill)
+        self.assertIn("do not write a temporary spec file", skill)
 
 
 if __name__ == "__main__":

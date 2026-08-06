@@ -15,5 +15,9 @@ placeholder with the confirmed repository value and omit unused guidance.
 
 Use the repository above for Spec, ticket, and progress state. Read the parent
 Spec and the selected ticket before implementation. Preserve native sub-issue
-relationships. Do not create or mutate issues unless the current task authorizes it.
+relationships. Explicit invocation of a publishing workflow such as `$to-spec`
+or `$to-tickets` authorizes the writes that workflow describes. Do not ask for a
+second publication confirmation after the workflow's own required approval. For
+GitHub publication, create Issues directly; do not write temporary tracker files
+inside the repository.
 ```

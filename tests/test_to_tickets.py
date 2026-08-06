@@ -12,28 +12,30 @@ class ToTicketsContractTests(unittest.TestCase):
         self.assertIn("$to-tickets", metadata)
         self.assertIn("allow_implicit_invocation: false", metadata)
 
-    def test_ticket_template_has_delivery_contract(self) -> None:
-        template = (ROOT / "references" / "ticket-template.md").read_text(
-            encoding="utf-8"
-        )
+    def test_inline_ticket_template_matches_the_delivery_contract(self) -> None:
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        template = skill.split("<issue-template>", 1)[1].split(
+            "</issue-template>", 1
+        )[0]
         for heading in ("Parent", "What to build", "Acceptance criteria", "Blocked by"):
             self.assertIn(f"## {heading}", template)
 
-    def test_workflow_requires_approval_and_preserves_parent(self) -> None:
-        skill = " ".join(
-            (ROOT / "SKILL.md").read_text(encoding="utf-8").lower().split()
-        )
-        self.assertIn("approval", skill)
-        self.assertIn("do not close, rewrite, or republish the parent spec", skill)
-
-    def test_small_cohesive_specs_do_not_require_ticket_ceremony(self) -> None:
+    def test_workflow_quizzes_then_publishes_the_approved_breakdown(self) -> None:
         skill = " ".join(
             (ROOT / "SKILL.md").read_text(encoding="utf-8").lower().split()
         )
 
-        self.assertIn("small cohesive change", skill)
-        self.assertIn("can run the spec directly", skill)
-        self.assertIn("do not create tickets only to satisfy ceremony", skill)
+        self.assertIn("quiz the user", skill)
+        self.assertIn("until the user approves the breakdown", skill)
+        self.assertIn("do not ask for another publication confirmation", skill)
+        self.assertIn("do not close or modify any parent spec", skill)
+
+    def test_skill_does_not_decide_that_tickets_are_unnecessary(self) -> None:
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8").lower()
+
+        self.assertNotIn("small cohesive change", skill)
+        self.assertNotIn("can run the spec directly and stop", skill)
+        self.assertNotIn("tickets only to satisfy ceremony", skill)
 
 
 if __name__ == "__main__":

@@ -24,29 +24,40 @@ class GrillingWorkflowContractTests(unittest.TestCase):
                 self.assertTrue((skill_root / "SKILL.md").is_file())
                 self.assertTrue((skill_root / "agents" / "openai.yaml").is_file())
 
-    def test_invocation_policies_separate_discipline_from_workflow(self) -> None:
+    def test_invocation_policies_match_matt(self) -> None:
         self.assertIn("allow_implicit_invocation: true", read_metadata("grilling"))
         self.assertIn(
             "allow_implicit_invocation: false", read_metadata("grill-with-docs")
         )
 
-    def test_documentation_aware_workflow_names_both_supporting_disciplines(self) -> None:
+    def test_grilling_preserves_matt_core_behavior(self) -> None:
+        grilling = read_skill("grilling")
+
+        self.assertIn("Interview me relentlessly", grilling)
+        self.assertIn("questions one at a time", grilling)
+        self.assertIn("If a fact can be found", grilling)
+        self.assertIn("The decisions, though, are mine", grilling)
+        self.assertIn("Do not act on it until I confirm", grilling)
+
+    def test_grill_with_docs_is_only_the_approved_composition(self) -> None:
         workflow = read_skill("grill-with-docs")
 
         self.assertIn("$grilling", workflow)
         self.assertIn("$project-documentation", workflow)
+        self.assertIn("existing module guides", workflow)
+        self.assertIn("Ask before creating a new module guide", workflow)
 
-    def test_documentation_aware_workflow_stops_before_specification(self) -> None:
-        workflow = read_skill("grill-with-docs").lower()
+    def test_grill_with_docs_defers_writes_until_final_confirmation(self) -> None:
+        workflow = read_skill("grill-with-docs")
 
-        self.assertIn("shared understanding", workflow)
-        self.assertIn("do not automatically invoke `$to-spec`", workflow)
-
-    def test_documentation_aware_workflow_uses_module_guides(self) -> None:
-        workflow = read_skill("grill-with-docs").lower()
-
-        self.assertIn("module guide", workflow)
-        self.assertIn("new module guide", workflow)
+        self.assertIn(
+            "Do not edit project documentation while the interview is in progress",
+            workflow,
+        )
+        self.assertIn("consolidated summary", workflow)
+        self.assertIn("explicit final confirmation", workflow)
+        self.assertIn("in one documentation pass", workflow)
+        self.assertNotIn("as the session proceeds", workflow)
 
 
 if __name__ == "__main__":

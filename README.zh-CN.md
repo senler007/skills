@@ -30,11 +30,11 @@ Use $setup-senler-skills to configure this project so every Skill knows where it
 
 只运行这次变更真正需要的阶段。调用哪个 Skill、什么时候调用，都由你决定：
 
-1. **把设计聊清楚**：设计还不清楚时运行 `$grill-with-docs`。它每次只问一个决策，只把已经确认的答案写进项目文档。
+1. **把设计聊清楚**：设计还不清楚时运行 `$grill-with-docs`。它每次只问一个决策，等你确认最终汇总后，再把整份结论一次性写进项目文档。
    - **例子：**“帮我确定完整的回合生命周期。”“和我一起梳理道具卡系统的设计。”
 2. **为这次修改留下记录**：当一个功能或修改已经足够明确时，运行 `$to-spec`。
 3. **拆成真正能做的工作（可选）**：当 Spec 需要独立切片、依赖排序或分批交付时运行 `$to-tickets`，再由你批准拆分结果。
-4. **只实现指定范围**：小而完整的 Spec 可以直接交给 `$implement`；较大的 Spec 则实现其全部已批准 Tickets，也可以只传入一组 Ticket 或单个 Ticket。它会测试、同步文档、审查并提交。
+4. **只实现指定范围**：把 Spec 或一组 Tickets 直接交给 `$implement`。它会测试、同步文档、审查并提交。
 
 任何 Skill 都不会偷偷进入下一阶段。项目控制权始终在你手里
 
@@ -59,10 +59,10 @@ Use $setup-senler-skills to configure this project so every Skill knows where it
 | Skill | 用途 |
 | --- | --- |
 | `setup-senler-skills` | 告诉其他 Skill 项目的 Tracker 和文档在哪里，不会顺手创建一堆空文件。 |
-| `grill-with-docs` | 每次只问一个设计问题，把确认后的答案写进正确的项目文档。 |
+| `grill-with-docs` | 每次只问一个设计问题，等你最终确认后，再把汇总结论一次性写进正确的项目文档。 |
 | `to-spec` | 只为这次修改留下一份简短记录，不把完整项目设计复制进去。 |
 | `to-tickets` | 按需把较大的修改拆成完整纵向切片，等你确认粒度和依赖以后才发布。 |
-| `implement` | 直接实现小 Spec 或已批准的 Ticket 范围，运行测试和审查，同步长期文档，然后提交。 |
+| `implement` | 直接实现 Spec 或 Ticket 范围，运行测试和审查，同步长期文档，然后提交。 |
 
 ### 支持 Skill
 

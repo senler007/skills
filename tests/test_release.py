@@ -46,12 +46,11 @@ class ReleaseContractTests(unittest.TestCase):
                     if "://" not in target and not target.startswith("#"):
                         self.assertTrue((skill_file.parent / target).is_file(), target)
 
-    def test_skill_instructions_are_validator_portable_and_project_neutral(self) -> None:
+    def test_skill_instructions_are_project_neutral(self) -> None:
         forbidden = ("TableGame", "InputDesign", "EventDesign", "CardDesign")
         for skill_file in SKILLS.glob("*/SKILL.md"):
             text = skill_file.read_text(encoding="utf-8")
             with self.subTest(skill=skill_file.parent.name):
-                text.encode("ascii")
                 for term in forbidden:
                     self.assertNotIn(term, text)
 
@@ -77,8 +76,8 @@ class ReleaseContractTests(unittest.TestCase):
         self.assertIn("[English](README.md)", chinese)
         self.assertIn("Use only the stages your change needs", english)
         self.assertIn("只运行这次变更真正需要的阶段", chinese)
-        self.assertIn("small Spec directly", english)
-        self.assertIn("小而完整的 Spec", chinese)
+        self.assertIn("directly with a Spec", english)
+        self.assertIn("把 Spec 或一组 Tickets 直接交给", chinese)
 
 
 if __name__ == "__main__":

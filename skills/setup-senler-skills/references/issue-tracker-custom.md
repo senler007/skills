@@ -17,5 +17,8 @@ schema the tracker does not support.
 - Done state: `{state}`
 
 Use `{tool or access method}` for tracker reads and authorized writes. Before
-implementation, read `{required context}`. Follow `{repository-specific rules}`.
+implementation, read `{required context}`. Explicit invocation of a publishing
+workflow authorizes the writes described by that workflow after its own required
+approval; do not ask for a duplicate publication confirmation. Follow
+`{repository-specific rules}`.
 ```

@@ -26,32 +26,49 @@ class ImplementationPackageContractTests(unittest.TestCase):
         self.assertIn("Spec or Ticket scope", metadata["interface"]["default_prompt"])
         self.assertIs(False, metadata["policy"]["allow_implicit_invocation"])
 
-    def test_tdd_bundles_required_references(self) -> None:
+    def test_tdd_preserves_matt_package_shape(self) -> None:
         root = SKILLS / "tdd"
         self.assertTrue((root / "SKILL.md").is_file())
-        self.assertTrue((root / "references" / "mocking.md").is_file())
-        self.assertTrue((root / "references" / "tests.md").is_file())
+        self.assertTrue((root / "mocking.md").is_file())
+        self.assertTrue((root / "tests.md").is_file())
+        self.assertFalse((root / "references" / "mocking.md").exists())
 
-    def test_implement_has_required_package_files(self) -> None:
-        root = SKILLS / "implement"
-        self.assertTrue((root / "SKILL.md").is_file())
-        self.assertTrue((root / "agents" / "openai.yaml").is_file())
+    def test_implement_preserves_the_direct_matt_flow(self) -> None:
+        instructions = " ".join(
+            (SKILLS / "implement" / "SKILL.md")
+            .read_text(encoding="utf-8")
+            .lower()
+            .split()
+        )
 
-    def test_implement_updates_the_daily_development_record(self) -> None:
+        for requirement in (
+            "implement the work described by the user in the spec or tickets",
+            "a spec is sufficient input",
+            "use `$tdd` where possible, at pre-agreed seams",
+            "run typechecking regularly",
+            "full test suite once at the end",
+            "use `$code-review` to review the work",
+            "commit the work to the current branch",
+        ):
+            self.assertIn(requirement, instructions)
+
+        for forbidden_gate in (
+            "small cohesive spec",
+            "stop and recommend `$to-tickets`",
+            "if absent, propose",
+            "wait for confirmation",
+        ):
+            self.assertNotIn(forbidden_gate, instructions)
+
+    def test_implement_keeps_only_the_approved_documentation_extension(self) -> None:
         instructions = (SKILLS / "implement" / "SKILL.md").read_text(
             encoding="utf-8"
         )
 
+        self.assertIn("$project-documentation", instructions)
         self.assertIn("daily development record", instructions)
-
-    def test_implement_can_run_a_small_cohesive_spec_without_tickets(self) -> None:
-        instructions = (SKILLS / "implement" / "SKILL.md").read_text(
-            encoding="utf-8"
-        ).lower()
-
-        self.assertIn("small cohesive spec", instructions)
-        self.assertIn("without tickets", instructions)
-        self.assertIn("approved tickets", instructions)
+        self.assertIn("Ask before", instructions)
+        self.assertIn("new module guide", instructions)
 
 
 if __name__ == "__main__":
