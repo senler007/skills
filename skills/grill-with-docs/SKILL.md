@@ -5,8 +5,7 @@ description: A relentless interview to sharpen a plan or design, then write the 
 
 Run a `$grilling` session, using the `$project-documentation` skill.
 
-Do not edit project documentation while the interview is in progress. Treat each
-answer as input to the evolving design, not as permission to persist that answer.
+Do not edit project documentation while the interview is in progress. Treat each answer as input to the evolving design, not as permission to persist that answer.
 
 Once every decision branch is resolved, present one concise consolidated summary
 of the proposed durable decisions and ask the user to confirm that final summary.
