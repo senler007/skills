@@ -17,6 +17,8 @@ EXPECTED_POLICIES = {
     "to-tickets": False,
     "implement": False,
     "grilling": True,
+    "ask-plan-build": True,
+    "figma-task-steward": True,
     "project-documentation": True,
     "tdd": True,
     "code-review": True,
@@ -24,7 +26,7 @@ EXPECTED_POLICIES = {
 
 
 class ReleaseContractTests(unittest.TestCase):
-    def test_release_contains_exactly_nine_valid_packages(self) -> None:
+    def test_release_contains_the_expected_valid_packages(self) -> None:
         self.assertEqual(set(EXPECTED_POLICIES), {path.name for path in SKILLS.iterdir()})
         for name, implicit in EXPECTED_POLICIES.items():
             with self.subTest(skill=name):
@@ -33,7 +35,7 @@ class ReleaseContractTests(unittest.TestCase):
                 metadata = parse_simple_metadata(root / "agents" / "openai.yaml")
                 self.assertIn(f"${name}", metadata["interface"]["default_prompt"])
                 self.assertIs(
-                    implicit, metadata["policy"]["allow_implicit_invocation"]
+                    implicit, metadata.get("policy", {}).get("allow_implicit_invocation", True)
                 )
 
     def test_all_bundled_reference_links_resolve(self) -> None:

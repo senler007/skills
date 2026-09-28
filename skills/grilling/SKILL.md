@@ -1,17 +1,19 @@
 ---
 name: grilling
-description: Grill the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-test their thinking, or uses any grill trigger phrase.
+description: Stress-test a plan or design through questions ordered by decision dependencies. Use when the user asks to be grilled or to challenge a design.
 ---
 
-Interview me relentlessly about every aspect of this until we reach a shared
-understanding. Walk down each branch of the decision tree, resolving dependencies
-between decisions one-by-one. For each question, provide your recommended answer.
+Model the unresolved design as a decision tree. In each round, ask a small group
+of questions whose prerequisites are settled, with a recommendation and its
+tradeoff for each. Let the answers determine the next round; do not ask dependent
+questions together or reopen decisions without conflicting evidence.
 
-Ask the questions one at a time, waiting for feedback on each question before
-continuing. Asking multiple questions at once is bewildering.
+Resolve discoverable facts from the project before asking the user. Focus on
+choices that change the outcome, scope, or costly commitments. Finish when the
+material decisions are resolved, not when every hypothetical branch is explored.
 
-If a fact can be found by exploring the environment (filesystem, tools, etc.),
-look it up rather than asking me. The decisions, though, are mine — put each one
-to me and wait for my answer.
-
-Do not act on it until I confirm we have reached a shared understanding.
+If the user asks to preserve the design in project docs, read the relevant
+existing authorities first. Keep the interview out of those files until the user
+confirms a consolidated decision summary, then use `$project-documentation` to
+write the confirmed decisions once. A revised summary needs confirmation of the
+changed decisions.

@@ -30,15 +30,6 @@ class GrillingWorkflowContractTests(unittest.TestCase):
             "allow_implicit_invocation: false", read_metadata("grill-with-docs")
         )
 
-    def test_grilling_preserves_matt_core_behavior(self) -> None:
-        grilling = read_skill("grilling")
-
-        self.assertIn("Interview me relentlessly", grilling)
-        self.assertIn("questions one at a time", grilling)
-        self.assertIn("If a fact can be found", grilling)
-        self.assertIn("The decisions, though, are mine", grilling)
-        self.assertIn("Do not act on it until I confirm", grilling)
-
     def test_grill_with_docs_is_only_the_approved_composition(self) -> None:
         workflow = read_skill("grill-with-docs")
 

@@ -2,6 +2,34 @@
 
 # Senler Skills
 
+## 文章中提到的三个 Skill
+
+用 **grilling** 把需求问清楚，用 **ask-plan-build** 给出具体方案再实施；
+需要管理 Figma 任务池时，再启用 **figma-task-steward**。
+
+| Skill | 用途 | 查看原文 |
+| --- | --- | --- |
+| `grilling` | 按决策依赖逐轮提问，每个问题提供建议和取舍，先查清项目事实。 | [SKILL.md](skills/grilling/SKILL.md) |
+| `ask-plan-build` | 一轮最多五个问题，给出具体方案，收到你的回复后按方案和更正实施。 | [SKILL.md](skills/ask-plan-build/SKILL.md) |
+| `figma-task-steward` | 为 Figma 任务建立独立 Codex 会话，管理澄清、项目操作排队、验收和跨天交接。 | [SKILL.md](skills/figma-task-steward/SKILL.md) |
+
+**[安装和首次配置教程](docs/INSTALL.zh-CN.md)**
+
+装有 Node.js/npm 和 Git 时，在终端执行这一条命令：
+
+```bash
+npx skills add senler007/skills --skill grilling ask-plan-build figma-task-steward -a codex -g --copy
+```
+
+命令安装仓库默认分支当前版本。更新前先备份同名个人修改版。
+**Figma 管家还需连接 Figma、启用 Codex 会话工具并配置项目入口；安装不会自动配置这些连接或每日自动任务。**
+完整前提与使用示例见[安装教程](docs/INSTALL.zh-CN.md)。
+
+## 原有 Spec / Ticket 工作流
+
+仓库也保留下面这套手动选择阶段的工作流。安装上面的三个 Skill 不会连带安装全部旧阶段，
+也不要求你必须按旧阶段使用。
+
 如果你想自己掌控项目，而不是让 AI 把项目搞得一团糟，就用这套工作流。它会让 AI 把自己不清楚的问题问出来，和你一起把每个功能或方案打磨清楚。最后，它会把每项设计决策和代码结构保存在人类能读懂的项目文档里。
 
 这套工作流很大程度上借鉴了 AIHero，但有三个关键变化：
@@ -12,10 +40,10 @@
 
 ## 安装和使用
 
-把下面这一句话发给 Codex，一次安装全部九个 Skill：
+把下面这一句话发给 Codex，安装这套旧工作流使用的九个 Skill：
 
 ```text
-Use $skill-installer to install all nine Skills from https://github.com/senler007/skills.
+Use $skill-installer to install setup-senler-skills, grill-with-docs, to-spec, to-tickets, implement, grilling, project-documentation, tdd, and code-review from https://github.com/senler007/skills (each is under skills/).
 ```
 
 安装完成后开始一个新的 Codex 对话，打开你的项目，然后运行：
@@ -30,7 +58,7 @@ Use $setup-senler-skills to configure this project so every Skill knows where it
 
 只运行这次变更真正需要的阶段。调用哪个 Skill、什么时候调用，都由你决定：
 
-1. **把设计聊清楚**：设计还不清楚时运行 `$grill-with-docs`。它每次只问一个决策，等你确认最终汇总后，再把整份结论一次性写进项目文档。
+1. **把设计聊清楚**：设计还不清楚时运行 `$grill-with-docs`。它用 `$grilling` 澄清决策，等你确认最终汇总后，再把整份结论一次性写进项目文档。
    - **例子：**“帮我确定完整的回合生命周期。”“和我一起梳理道具卡系统的设计。”
 2. **为这次修改留下记录**：当一个功能或修改已经足够明确时，运行 `$to-spec`。
 3. **拆成真正能做的工作（可选）**：当 Spec 需要独立切片、依赖排序或分批交付时运行 `$to-tickets`，再由你批准拆分结果。
@@ -59,7 +87,7 @@ Use $setup-senler-skills to configure this project so every Skill knows where it
 | Skill | 用途 |
 | --- | --- |
 | `setup-senler-skills` | 告诉其他 Skill 项目的 Tracker 和文档在哪里，不会顺手创建一堆空文件。 |
-| `grill-with-docs` | 每次只问一个设计问题，等你最终确认后，再把汇总结论一次性写进正确的项目文档。 |
+| `grill-with-docs` | 用 `$grilling` 澄清决策，等你最终确认后，再把汇总结论一次性写进正确的项目文档。 |
 | `to-spec` | 只为这次修改留下一份简短记录，不把完整项目设计复制进去。 |
 | `to-tickets` | 按需把较大的修改拆成完整纵向切片，等你确认粒度和依赖以后才发布。 |
 | `implement` | 直接实现 Spec 或 Ticket 范围，运行测试和审查，同步长期文档，然后提交。 |
@@ -70,7 +98,7 @@ Use $setup-senler-skills to configure this project so every Skill knows where it
 
 | Skill | 用途 |
 | --- | --- |
-| `grilling` | 不让 AI 一次扔给你十个问题：一次一个决策、一个建议、一个回答。 |
+| `grilling` | 每轮只问前提已明确的一小组问题，每题给建议和取舍，再根据回答决定下一轮。 |
 | `project-documentation` | 把每个模块的设计、代码结构和维护地图保存在一份人能读懂的文档里，并把已完成的项目修改写入当天开发记录。 |
 | `tdd` | 通过稳定的公开边界测试行为，而不是测试内部实现细节。 |
 | `code-review` | 分开审查 Standards、Spec 和 Documentation，而且不会修改你的文件。 |

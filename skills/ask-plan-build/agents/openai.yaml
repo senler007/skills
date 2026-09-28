@@ -1,0 +1,6 @@
+interface:
+  display_name: "Ask Plan Build"
+  short_description: "Up to five questions then plan and implement"
+  default_prompt: "Use $ask-plan-build to ask me up to five questions, propose a solution, and implement after my response."
+policy:
+  allow_implicit_invocation: true
